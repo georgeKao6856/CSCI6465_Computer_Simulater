@@ -38,9 +38,11 @@ public class Alert extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Alert() {
+	public Alert() {	
+		setAlwaysOnTop(true);
+		setResizable(false);
 		setTitle("Warning");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 223);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.RED);

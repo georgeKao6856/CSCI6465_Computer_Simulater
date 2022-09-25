@@ -42,7 +42,15 @@ public class MainDashboard {
 	private ArrayList<CustomButton> currentStatus = new ArrayList<>();
 	private MemoryAddressRegister mar = new MemoryAddressRegister(0);
 	private MemoryBufferRegister mbr = new MemoryBufferRegister(0);
+	private ProgramCounter pc = new ProgramCounter(0);
+	private InstructionRegister ir = new InstructionRegister(0);
 	private Memory mem = new Memory();
+	private GeneralPurposeRegister gpr0 = new GeneralPurposeRegister(0);
+	private GeneralPurposeRegister gpr1 = new GeneralPurposeRegister(1);
+	private GeneralPurposeRegister gpr2 = new GeneralPurposeRegister(2);
+	private GeneralPurposeRegister gpr3 = new GeneralPurposeRegister(3);
+	private ArrayList<GeneralPurposeRegister> GPRList = new ArrayList<GeneralPurposeRegister>();
+	private ArrayList<JTextField> textFieldGPRList = new ArrayList<JTextField>();
 
 	/**
 	 * Launch the application.
@@ -53,7 +61,7 @@ public class MainDashboard {
 			public void run() {
 				try {
 					MainDashboard window = new MainDashboard();
-					window.frame.setVisible(true);
+					window.frame.setVisible(true);					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -77,7 +85,7 @@ public class MainDashboard {
 		frame.getContentPane().setBackground(new Color(255, 240, 245));
 		frame.setBounds(100, 100, 1206, 603);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+		
 		JLabel lblGpr0 = new JLabel("GPR 0");
 		lblGpr0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
@@ -115,64 +123,85 @@ public class MainDashboard {
 		lblMFR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		textFieldGpr0 = new JTextField();
+		textFieldGpr0.setText("0000000000000000");
 		textFieldGpr0.setEditable(false);
 		textFieldGpr0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldGpr0.setColumns(10);
 
 		textFieldGpr1 = new JTextField();
+		textFieldGpr1.setText("0000000000000000");
 		textFieldGpr1.setEditable(false);
 		textFieldGpr1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldGpr1.setColumns(10);
 
 		textFieldGpr2 = new JTextField();
+		textFieldGpr2.setText("0000000000000000");
 		textFieldGpr2.setEditable(false);
 		textFieldGpr2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldGpr2.setColumns(10);
 
 		textFieldGpr3 = new JTextField();
+		textFieldGpr3.setText("0000000000000000");
 		textFieldGpr3.setEditable(false);
 		textFieldGpr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldGpr3.setColumns(10);
+		
+		textFieldGPRList.add(textFieldGpr0); textFieldGPRList.add(textFieldGpr1); textFieldGPRList.add(textFieldGpr2); textFieldGPRList.add(textFieldGpr3);
+		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 
 		textFieldIxr1 = new JTextField();
+		textFieldIxr1.setText("0000000000000000");
 		textFieldIxr1.setEditable(false);
 		textFieldIxr1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldIxr1.setColumns(10);
 
 		textFieldIxr2 = new JTextField();
+		textFieldIxr2.setText("0000000000000000");
 		textFieldIxr2.setEditable(false);
 		textFieldIxr2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldIxr2.setColumns(10);
 
 		textFieldIxr3 = new JTextField();
+		textFieldIxr3.setText("0000000000000000");
 		textFieldIxr3.setEditable(false);
 		textFieldIxr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldIxr3.setColumns(10);
 
 		textFieldPC = new JTextField();
+		textFieldPC.setText("000000000000");
 		textFieldPC.setEditable(false);
 		textFieldPC.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldPC.setColumns(10);
 
 		textFieldMAR = new JTextField();
+		textFieldMAR.setText("000000000000");
 		textFieldMAR.setEditable(false);
 		textFieldMAR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldMAR.setColumns(10);
 
 		textFieldMBR = new JTextField();
+		textFieldMBR.setText("0000000000000000");
 		textFieldMBR.setEditable(false);
 		textFieldMBR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldMBR.setColumns(10);
 
 		textFieldIR = new JTextField();
+		textFieldIR.setText("0000000000000000");
 		textFieldIR.setEditable(false);
 		textFieldIR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldIR.setColumns(10);
 
 		textFieldMFR = new JTextField();
+		textFieldMFR.setText("0000");
 		textFieldMFR.setEditable(false);
 		textFieldMFR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldMFR.setColumns(10);
+		
+		CustomButton btnHaltStatus = new CustomButton();
+		btnHaltStatus.setEnabled(false);
+		btnHaltStatus.setRadius(50);
+		btnHaltStatus.setBackground(new Color(0,255,0));
+		btnHaltStatus.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		JButton btnGrp0 = new JButton("LD");
 		btnGrp0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -202,6 +231,23 @@ public class MainDashboard {
 		btnIxr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnPC = new JButton("LD");
+		btnPC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();		
+				if(status.substring(0, 4).equals("0000")) {
+					int value = Integer.parseInt(status, 2);
+					pc.setCurrentValue(value);
+					pc.setBinaryValue(value);
+					textFieldPC.setText(pc.getValue());
+				}else {
+					Alert alert = new Alert();
+					alert.setLocation(frame.getSize().width/2, frame.getSize().height/2);
+					alert.setVisible(true);
+					textFieldMAR.setText(pc.getValue());
+				}
+				resetBackGround();
+			}
+		});
 		btnPC.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnMBR = new JButton("LD");
@@ -221,6 +267,7 @@ public class MainDashboard {
 		btnStore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
+				resetBackGround();
 			}
 		});
 		btnStore.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -228,10 +275,8 @@ public class MainDashboard {
 		JButton btnLoad = new JButton("Load");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int mbrcurrent = mem.get(mar.getCurrentValue());
-				mbr.setCurrentValue(mbrcurrent);
-				mbr.setBinaryValue(mbrcurrent);
-				textFieldMBR.setText(mbr.getValue());
+				loadMemorytoMBR();
+				resetBackGround();
 			}
 		});
 		btnLoad.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -278,16 +323,68 @@ public class MainDashboard {
 				mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
 				mar.addOne();
 				textFieldMAR.setText(mar.getValue());
-				textFieldMBR.setText("");  //I don't know the default value.
+				//textFieldMBR.setText("0000000000");  //I don't know the default value.
+				resetBackGround();
 			}
 		});
 		btnStorePlus.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		JButton btnRun = new JButton("Run");
+		btnRun.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int pcvalue = pc.getCurrentValue();
+				while(mem.get(pcvalue) != 0) {
+					btnHaltStatus.setBackground(Color.WHITE);
+					loadIR(pcvalue);
+					mar.setBinaryValue(ir.getIRAddrValue());
+					mar.setCurrentValue(ir.getIRAddrValue());
+					textFieldMAR.setText(mar.getValue());
+					loadMemorytoMBR();
+					loadGPR();
+					pc.addOne();
+					textFieldPC.setText(pc.getValue());
+					pcvalue = pc.getCurrentValue();
+				}
+				loadIR(pcvalue);
+				btnHaltStatus.setBackground(new Color(0,255,0));
+			}
+		});
+		btnRun.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		JButton btnSS = new JButton("SS");
+		btnSS.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int pcvalue = pc.getCurrentValue();
+				loadIR(pcvalue);
+				if(mem.get(pcvalue) != 0) {
+					mar.setBinaryValue(ir.getIRAddrValue());
+					mar.setCurrentValue(ir.getIRAddrValue());
+					textFieldMAR.setText(mar.getValue());
+					loadMemorytoMBR();
+					loadGPR();
+					pc.addOne();
+					textFieldPC.setText(pc.getValue());
+				}
+			}
+		});
+		btnSS.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		CustomButton btnRunStatus = new CustomButton();
+		btnRunStatus.setEnabled(false);
+		btnRunStatus.setRadius(50);
+		btnRunStatus.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		
+		JLabel lblHalt = new JLabel("Halt");
+		lblHalt.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		JLabel lblRun = new JLabel("Run");
+		lblRun.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(65)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -337,11 +434,24 @@ public class MainDashboard {
 							.addGap(95)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblHalt)
+										.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
 									.addGap(18)
-									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+									.addGap(63))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblPC, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
@@ -364,10 +474,10 @@ public class MainDashboard {
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(textFieldPC, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 											.addGap(18)
-											.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))))
-							.addPreferredGap(ComponentPlacement.RELATED, 126, Short.MAX_VALUE))
+											.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))
+									.addPreferredGap(ComponentPlacement.RELATED, 217, Short.MAX_VALUE))))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(23)
+							.addContainerGap(26, Short.MAX_VALUE)
 							.addComponent(panel_Operation, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(panel_GPR, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
@@ -376,9 +486,8 @@ public class MainDashboard {
 							.addGap(18)
 							.addComponent(panel_I, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(panel_Address, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addGap(56))
+							.addComponent(panel_Address, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)))
+					.addGap(19))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -419,32 +528,46 @@ public class MainDashboard {
 						.addComponent(lblMFR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldMFR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 					.addGap(25)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIxr1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textFieldIxr1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnIxr1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIxr2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textFieldIxr2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnIxr2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblIxr1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textFieldIxr1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnIxr1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblIxr2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textFieldIxr2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnIxr2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblHalt)
+									.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblIxr3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldIxr3, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnIxr3))
-					.addGap(29)
+					.addGap(27)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 							.addComponent(panel_GPR, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-							.addComponent(panel_Operation, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panel_Operation, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(panel_IXR, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel_I, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel_Address, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE))
-					.addGap(144))
+					.addGap(146))
 		);
 		
 		CustomButton btnb0 = new CustomButton();
@@ -830,5 +953,26 @@ public class MainDashboard {
 			status = (element.getBackground().equals(Color.WHITE))? "0" + status : "1" + status;
 		}
 		return status;
+	}
+	
+	public void loadMemorytoMBR() {
+		int mbrcurrent = mem.get(mar.getCurrentValue());
+		mbr.setCurrentValue(mbrcurrent);
+		mbr.setBinaryValue(mbrcurrent);
+		textFieldMBR.setText(mbr.getValue());
+	}
+	
+	public void loadIR(int pcvalue) {
+		ir.setBinaryValue(mem.get(pcvalue));
+		ir.setCurrentValue(mem.get(pcvalue));
+		String instruction = ir.getValue();
+		textFieldIR.setText(instruction);
+	}
+	
+	public void loadGPR() {
+		int gprValue = ir.getIRGPRValue();
+		GPRList.get(gprValue).setCurrentValue(mbr.getCurrentValue());
+		GPRList.get(gprValue).setBinaryValue(mbr.getCurrentValue());
+		textFieldGPRList.get(gprValue).setText(GPRList.get(gprValue).getValue());;
 	}
 }

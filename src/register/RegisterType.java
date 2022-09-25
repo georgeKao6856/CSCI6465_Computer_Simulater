@@ -6,7 +6,7 @@ public enum RegisterType {
 	 * Enum defines types of register and number of bits in the register
 	 */
 
-	GeneralPurposeRegister("GPR", 12),
+	GeneralPurposeRegister("GPR", 16),
     IndexRegister("IXR", 16),
     InstructionRegister("IR", 16),
     MemoryAddressRegister("MAR", 12),
