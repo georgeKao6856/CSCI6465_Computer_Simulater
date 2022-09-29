@@ -1,1 +1,1 @@
-# CSCI6465_Computer_Simulater
+# CSCI6465_Computer_Simulator
