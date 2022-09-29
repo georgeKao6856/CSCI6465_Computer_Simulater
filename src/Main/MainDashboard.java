@@ -5,11 +5,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -80,7 +84,7 @@ public class MainDashboard {
 	 * Initialize the contents of the frame.6
 	 */
 	private void initialize() {
-		frame = new JFrame("CSCI 6461 Team 10 Computer Simulater");
+		frame = new JFrame("CSCI 6461 Team 10 Computer Simulator");
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(255, 240, 245));
 		frame.setBounds(100, 100, 1206, 603);
@@ -379,6 +383,41 @@ public class MainDashboard {
 		
 		JLabel lblRun = new JLabel("Run");
 		lblRun.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		JButton btnInit = new JButton("Init");
+		btnInit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mem.clear();
+				JFileChooser fileChooser = new JFileChooser();
+				String pwd = System.getProperty("user.dir");
+				fileChooser.setCurrentDirectory(new File(pwd));
+				int response = fileChooser.showOpenDialog(null);
+				if(response == JFileChooser.APPROVE_OPTION) {
+					File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+					try {
+						Scanner myReader = new Scanner(file);
+						while (myReader.hasNextLine()) {
+							String data = myReader.nextLine();
+							String[] dataSperated = data.split(" ");
+							int addr = Integer.parseInt(dataSperated[0],16);
+							int value = Integer.parseInt(dataSperated[1],16);
+							mar.setCurrentValue(addr);
+							mar.setBinaryValue(addr);
+							textFieldMAR.setText(mar.getValue());
+							mbr.setCurrentValue(value);
+							mbr.setBinaryValue(value);
+							textFieldMBR.setText(mbr.getValue());
+							mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
+						}
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		btnInit.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnInit.setBackground(Color.RED);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -434,25 +473,6 @@ public class MainDashboard {
 							.addGap(95)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblHalt)
-										.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-									.addGap(18)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-									.addGap(63))
-								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblPC, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblMAR, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
@@ -475,7 +495,29 @@ public class MainDashboard {
 											.addComponent(textFieldPC, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 											.addGap(18)
 											.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED, 217, Short.MAX_VALUE))))
+									.addPreferredGap(ComponentPlacement.RELATED, 217, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnInit, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+												.addComponent(lblHalt)
+												.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+											.addGap(18)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+												.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+											.addGap(63))))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap(26, Short.MAX_VALUE)
 							.addComponent(panel_Operation, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
@@ -517,19 +559,19 @@ public class MainDashboard {
 						.addComponent(textFieldMBR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnMBR, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblGpr3)
-						.addComponent(textFieldGpr3, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnGrp3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblIR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textFieldIR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMFR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textFieldMFR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-					.addGap(25)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblGpr3)
+								.addComponent(textFieldGpr3, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnGrp3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblIR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textFieldIR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMFR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textFieldMFR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+							.addGap(25)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblIxr1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textFieldIxr1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
@@ -539,21 +581,24 @@ public class MainDashboard {
 								.addComponent(lblIxr2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textFieldIxr2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnIxr2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(lblHalt)
-									.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnInit, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblHalt)
+										.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))))
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblIxr3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)

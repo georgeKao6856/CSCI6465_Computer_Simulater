@@ -41,5 +41,11 @@ public class Memory {
 			return mem[addr].getData();
 		}	
 	}
+	
+	public void clear() {
+		for(int i = 0; i < mem.length;i++) {
+			mem[i] = null;
+		}
+	}
 
 }
