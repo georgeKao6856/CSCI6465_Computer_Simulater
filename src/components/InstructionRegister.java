@@ -9,15 +9,21 @@ public class InstructionRegister extends Register  {
         setRegisterNumber(registerNumber);
     }
 	
-	public int getIRAddrValue() {
+	public int getAddrValue() {
 		String addr = getValue().substring(12);
 		int value = Integer.parseInt(addr,2);
 		return value;
 	}
 	
-	public int getIRGPRValue() {
-		String addr = getValue().substring(6,8);
-		int value = Integer.parseInt(addr,2);
+	public int getGPRValue() {
+		String gprValue = getValue().substring(6,8);
+		int value = Integer.parseInt(gprValue,2);
+		return value;
+	}
+	
+	public int getIXRValue() {
+		String ixrValue = getValue().substring(8,10);
+		int value = Integer.parseInt(ixrValue,2);
 		return value;
 	}
 }

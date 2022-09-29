@@ -55,6 +55,11 @@ public class MainDashboard {
 	private GeneralPurposeRegister gpr3 = new GeneralPurposeRegister(3);
 	private ArrayList<GeneralPurposeRegister> GPRList = new ArrayList<GeneralPurposeRegister>();
 	private ArrayList<JTextField> textFieldGPRList = new ArrayList<JTextField>();
+	private ArrayList<IndexRegister> IXRList = new ArrayList<IndexRegister>();
+	private ArrayList<JTextField> textFieldIXRList = new ArrayList<JTextField>();
+	private IndexRegister ixr1 = new IndexRegister(1);
+	private IndexRegister ixr2 = new IndexRegister(2);
+	private IndexRegister ixr3 = new IndexRegister(3);
 
 	/**
 	 * Launch the application.
@@ -170,6 +175,9 @@ public class MainDashboard {
 		textFieldIxr3.setEditable(false);
 		textFieldIxr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldIxr3.setColumns(10);
+			
+		textFieldIXRList.add(textFieldIxr1); textFieldIXRList.add(textFieldIxr2); textFieldIXRList.add(textFieldIxr3);
+		IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
 
 		textFieldPC = new JTextField();
 		textFieldPC.setText("000000000000");
@@ -226,12 +234,42 @@ public class MainDashboard {
 		btnGrp3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnIxr1 = new JButton("LD");
+		btnIxr1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				ixr1.setCurrentValue(value);
+				ixr1.setBinaryValue(value);
+				textFieldIxr1.setText(ixr1.getValue());	
+				resetBackGround();
+			}
+		});
 		btnIxr1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnIxr2 = new JButton("LD");
+		btnIxr2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				ixr2.setCurrentValue(value);
+				ixr2.setBinaryValue(value);
+				textFieldIxr2.setText(ixr2.getValue());	
+				resetBackGround();
+			}
+		});
 		btnIxr2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnIxr3 = new JButton("LD");
+		btnIxr3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				ixr3.setCurrentValue(value);
+				ixr3.setBinaryValue(value);
+				textFieldIxr3.setText(ixr3.getValue());	
+				resetBackGround();
+			}
+		});
 		btnIxr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnPC = new JButton("LD");
@@ -327,7 +365,6 @@ public class MainDashboard {
 				mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
 				mar.addOne();
 				textFieldMAR.setText(mar.getValue());
-				//textFieldMBR.setText("0000000000");  //I don't know the default value.
 				resetBackGround();
 			}
 		});
@@ -337,19 +374,34 @@ public class MainDashboard {
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int pcvalue = pc.getCurrentValue();
+				btnHaltStatus.setBackground(Color.WHITE);
 				while(mem.get(pcvalue) != 0) {
-					btnHaltStatus.setBackground(Color.WHITE);
 					loadIR(pcvalue);
-					mar.setBinaryValue(ir.getIRAddrValue());
-					mar.setCurrentValue(ir.getIRAddrValue());
-					textFieldMAR.setText(mar.getValue());
-					loadMemorytoMBR();
-					loadGPR();
-					pc.addOne();
-					textFieldPC.setText(pc.getValue());
-					pcvalue = pc.getCurrentValue();
+					if(ir.getIXRValue() != 0) {
+						int value = IXRList.get(ir.getIXRValue()-1).getCurrentValue();
+						int addvalue = value + ir.getAddrValue();
+						mar.setBinaryValue(addvalue);
+						mar.setCurrentValue(addvalue);
+						textFieldMAR.setText(mar.getValue());
+						loadMemorytoMBR();
+						loadGPR();
+						pc.addOne();
+						textFieldPC.setText(pc.getValue());
+						pcvalue = pc.getCurrentValue();
+					}else {
+						mar.setBinaryValue(ir.getAddrValue());
+						mar.setCurrentValue(ir.getAddrValue());
+						textFieldMAR.setText(mar.getValue());
+						loadMemorytoMBR();
+						loadGPR();
+						pc.addOne();
+						textFieldPC.setText(pc.getValue());
+						pcvalue = pc.getCurrentValue();
+					}		
 				}
 				loadIR(pcvalue);
+				pc.addOne();
+				textFieldPC.setText(pc.getValue());
 				btnHaltStatus.setBackground(new Color(0,255,0));
 			}
 		});
@@ -361,11 +413,26 @@ public class MainDashboard {
 				int pcvalue = pc.getCurrentValue();
 				loadIR(pcvalue);
 				if(mem.get(pcvalue) != 0) {
-					mar.setBinaryValue(ir.getIRAddrValue());
-					mar.setCurrentValue(ir.getIRAddrValue());
-					textFieldMAR.setText(mar.getValue());
-					loadMemorytoMBR();
-					loadGPR();
+					if(ir.getIXRValue() != 0) {
+						int value = IXRList.get(ir.getIXRValue()-1).getCurrentValue();
+						int addvalue = value + ir.getAddrValue();
+						mar.setBinaryValue(addvalue);
+						mar.setCurrentValue(addvalue);
+						textFieldMAR.setText(mar.getValue());
+						loadMemorytoMBR();
+						loadGPR();
+						pc.addOne();
+						textFieldPC.setText(pc.getValue());
+					}else {
+						mar.setBinaryValue(ir.getAddrValue());
+						mar.setCurrentValue(ir.getAddrValue());
+						textFieldMAR.setText(mar.getValue());
+						loadMemorytoMBR();
+						loadGPR();
+						pc.addOne();
+						textFieldPC.setText(pc.getValue());
+					}
+				}else {
 					pc.addOne();
 					textFieldPC.setText(pc.getValue());
 				}
@@ -387,6 +454,30 @@ public class MainDashboard {
 		JButton btnInit = new JButton("Init");
 		btnInit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for(int i= 0;i < GPRList.size(); i++) {
+					GPRList.get(i).setCurrentValue(0);
+					GPRList.get(i).setBinaryValue(0);
+					textFieldGPRList.get(i).setText(GPRList.get(i).getValue());
+				}
+				
+				for(int i= 0;i < IXRList.size(); i++) {
+					IXRList.get(i).setCurrentValue(0);
+					IXRList.get(i).setBinaryValue(0);
+					textFieldIXRList.get(i).setText(IXRList.get(i).getValue());
+				}
+
+				mar.setCurrentValue(0);
+				mar.setBinaryValue(0);
+				textFieldMAR.setText(mar.getValue());
+				mbr.setCurrentValue(0);
+				mbr.setBinaryValue(0);
+				textFieldMBR.setText(mbr.getValue());
+				pc.setCurrentValue(0);
+				pc.setBinaryValue(0);
+				textFieldPC.setText(pc.getValue());
+				ir.setCurrentValue(0);
+				ir.setBinaryValue(0);
+				textFieldIR.setText(ir.getValue());
 				mem.clear();
 				JFileChooser fileChooser = new JFileChooser();
 				String pwd = System.getProperty("user.dir");
@@ -1015,7 +1106,7 @@ public class MainDashboard {
 	}
 	
 	public void loadGPR() {
-		int gprValue = ir.getIRGPRValue();
+		int gprValue = ir.getGPRValue();
 		GPRList.get(gprValue).setCurrentValue(mbr.getCurrentValue());
 		GPRList.get(gprValue).setBinaryValue(mbr.getCurrentValue());
 		textFieldGPRList.get(gprValue).setText(GPRList.get(gprValue).getValue());;
