@@ -26,4 +26,10 @@ public class InstructionRegister extends Register  {
 		int value = Integer.parseInt(ixrValue,2);
 		return value;
 	}
+	
+	public int getIValue() {
+		String iValue = getValue().substring(10,11);
+		int value = Integer.parseInt(iValue,2);
+		return value;
+	}
 }

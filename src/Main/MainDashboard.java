@@ -57,6 +57,7 @@ public class MainDashboard {
 	private ArrayList<JTextField> textFieldGPRList = new ArrayList<JTextField>();
 	private ArrayList<IndexRegister> IXRList = new ArrayList<IndexRegister>();
 	private ArrayList<JTextField> textFieldIXRList = new ArrayList<JTextField>();
+	private IndexRegister ixr0 = new IndexRegister(0);
 	private IndexRegister ixr1 = new IndexRegister(1);
 	private IndexRegister ixr2 = new IndexRegister(2);
 	private IndexRegister ixr3 = new IndexRegister(3);
@@ -177,7 +178,7 @@ public class MainDashboard {
 		textFieldIxr3.setColumns(10);
 			
 		textFieldIXRList.add(textFieldIxr1); textFieldIXRList.add(textFieldIxr2); textFieldIXRList.add(textFieldIxr3);
-		IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
+		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
 
 		textFieldPC = new JTextField();
 		textFieldPC.setText("000000000000");
@@ -377,27 +378,22 @@ public class MainDashboard {
 				btnHaltStatus.setBackground(Color.WHITE);
 				while(mem.get(pcvalue) != 0) {
 					loadIR(pcvalue);
-					if(ir.getIXRValue() != 0) {
-						int value = IXRList.get(ir.getIXRValue()-1).getCurrentValue();
-						int addvalue = value + ir.getAddrValue();
+					int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
+					int addvalue = value + ir.getAddrValue();
+					if(ir.getIValue() != 0) {
+						int indirect = mem.get(addvalue);
+						mar.setBinaryValue(indirect);
+						mar.setCurrentValue(indirect);
+					}else {
 						mar.setBinaryValue(addvalue);
 						mar.setCurrentValue(addvalue);
-						textFieldMAR.setText(mar.getValue());
-						loadMemorytoMBR();
-						loadGPR();
-						pc.addOne();
-						textFieldPC.setText(pc.getValue());
-						pcvalue = pc.getCurrentValue();
-					}else {
-						mar.setBinaryValue(ir.getAddrValue());
-						mar.setCurrentValue(ir.getAddrValue());
-						textFieldMAR.setText(mar.getValue());
-						loadMemorytoMBR();
-						loadGPR();
-						pc.addOne();
-						textFieldPC.setText(pc.getValue());
-						pcvalue = pc.getCurrentValue();
-					}		
+					}
+					textFieldMAR.setText(mar.getValue());
+					loadMemorytoMBR();
+					loadGPR();
+					pc.addOne();
+					textFieldPC.setText(pc.getValue());
+					pcvalue = pc.getCurrentValue();
 				}
 				loadIR(pcvalue);
 				pc.addOne();
@@ -413,25 +409,21 @@ public class MainDashboard {
 				int pcvalue = pc.getCurrentValue();
 				loadIR(pcvalue);
 				if(mem.get(pcvalue) != 0) {
-					if(ir.getIXRValue() != 0) {
-						int value = IXRList.get(ir.getIXRValue()-1).getCurrentValue();
+						int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
 						int addvalue = value + ir.getAddrValue();
-						mar.setBinaryValue(addvalue);
-						mar.setCurrentValue(addvalue);
+						if(ir.getIValue() != 0) {
+							int indirect = mem.get(addvalue);
+							mar.setBinaryValue(indirect);
+							mar.setCurrentValue(indirect);
+						}else {
+							mar.setBinaryValue(addvalue);
+							mar.setCurrentValue(addvalue);
+						}
 						textFieldMAR.setText(mar.getValue());
 						loadMemorytoMBR();
 						loadGPR();
 						pc.addOne();
 						textFieldPC.setText(pc.getValue());
-					}else {
-						mar.setBinaryValue(ir.getAddrValue());
-						mar.setCurrentValue(ir.getAddrValue());
-						textFieldMAR.setText(mar.getValue());
-						loadMemorytoMBR();
-						loadGPR();
-						pc.addOne();
-						textFieldPC.setText(pc.getValue());
-					}
 				}else {
 					pc.addOne();
 					textFieldPC.setText(pc.getValue());
@@ -460,10 +452,10 @@ public class MainDashboard {
 					textFieldGPRList.get(i).setText(GPRList.get(i).getValue());
 				}
 				
-				for(int i= 0;i < IXRList.size(); i++) {
+				for(int i= 0;i < textFieldIXRList.size(); i++) {
 					IXRList.get(i).setCurrentValue(0);
 					IXRList.get(i).setBinaryValue(0);
-					textFieldIXRList.get(i).setText(IXRList.get(i).getValue());
+					textFieldIXRList.get(i).setText(IXRList.get(i+1).getValue());
 				}
 
 				mar.setCurrentValue(0);
