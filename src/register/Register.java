@@ -19,6 +19,7 @@ public abstract class Register extends BitSet {
 		super(x.getSize());
 		this.sizeofRegister = x.getSize();
 		this.registerType = x.getType();
+		this.currentValue = 0;
 	}
 	
 	public BitSet getBitsetValue(){

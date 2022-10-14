@@ -1,32 +1,29 @@
 package Main;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.awt.SystemColor;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import components.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import components.*;
 import javax.swing.WindowConstants;
 
 import swing.CustomButton;
 import javax.swing.JPanel;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
+import javax.swing.JRadioButton;
 
 public class MainDashboard {
 
@@ -44,23 +41,12 @@ public class MainDashboard {
 	private JTextField textFieldIR;
 	private JTextField textFieldMFR;
 	private ArrayList<CustomButton> currentStatus = new ArrayList<>();
-	private MemoryAddressRegister mar = new MemoryAddressRegister(0);
-	private MemoryBufferRegister mbr = new MemoryBufferRegister(0);
-	private ProgramCounter pc = new ProgramCounter(0);
-	private InstructionRegister ir = new InstructionRegister(0);
 	private Memory mem = new Memory();
-	private GeneralPurposeRegister gpr0 = new GeneralPurposeRegister(0);
-	private GeneralPurposeRegister gpr1 = new GeneralPurposeRegister(1);
-	private GeneralPurposeRegister gpr2 = new GeneralPurposeRegister(2);
-	private GeneralPurposeRegister gpr3 = new GeneralPurposeRegister(3);
-	private ArrayList<GeneralPurposeRegister> GPRList = new ArrayList<GeneralPurposeRegister>();
 	private ArrayList<JTextField> textFieldGPRList = new ArrayList<JTextField>();
-	private ArrayList<IndexRegister> IXRList = new ArrayList<IndexRegister>();
 	private ArrayList<JTextField> textFieldIXRList = new ArrayList<JTextField>();
-	private IndexRegister ixr0 = new IndexRegister(0);
-	private IndexRegister ixr1 = new IndexRegister(1);
-	private IndexRegister ixr2 = new IndexRegister(2);
-	private IndexRegister ixr3 = new IndexRegister(3);
+	private JFrame console;
+	private CPU cpu = new CPU(mem);
+	public static final Logger logger = LoggerFactory.getLogger("CSCI6465.logger");
 
 	/**
 	 * Launch the application.
@@ -95,6 +81,12 @@ public class MainDashboard {
 		frame.getContentPane().setBackground(new Color(255, 240, 245));
 		frame.setBounds(100, 100, 1206, 603);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		console = new Console();
+		console.setLocation(frame.getSize().width/2, frame.getSize().height/2);
+		console.setVisible(false);
+		
+		logger.info("Initialize the main dashboard.");
 		
 		JLabel lblGpr0 = new JLabel("GPR 0");
 		lblGpr0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -157,7 +149,6 @@ public class MainDashboard {
 		textFieldGpr3.setColumns(10);
 		
 		textFieldGPRList.add(textFieldGpr0); textFieldGPRList.add(textFieldGpr1); textFieldGPRList.add(textFieldGpr2); textFieldGPRList.add(textFieldGpr3);
-		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 
 		textFieldIxr1 = new JTextField();
 		textFieldIxr1.setText("0000000000000000");
@@ -178,7 +169,6 @@ public class MainDashboard {
 		textFieldIxr3.setColumns(10);
 			
 		textFieldIXRList.add(textFieldIxr1); textFieldIXRList.add(textFieldIxr2); textFieldIXRList.add(textFieldIxr3);
-		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
 
 		textFieldPC = new JTextField();
 		textFieldPC.setText("000000000000");
@@ -221,17 +211,52 @@ public class MainDashboard {
 		btnGrp0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				cpu.setGPR0(value);
+				textFieldGpr0.setText(cpu.getBinaryGPR0());	
+				resetBackGround();
+				logger.info("Load {}({}) into GPR0.", cpu.getIntGPR0(), cpu.getBinaryGPR0());
 			}
 		});
 
 		JButton btnGrp1 = new JButton("LD");
+		btnGrp1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				cpu.setGPR1(value);
+				textFieldGpr1.setText(cpu.getBinaryGPR1());	
+				resetBackGround();
+				logger.info("Load {}({}) into GPR1.", cpu.getIntGPR1(), cpu.getBinaryGPR1());
+			}
+		});
 		btnGrp1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnGrp2 = new JButton("LD");
+		btnGrp2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				cpu.setGPR2(value);
+				textFieldGpr2.setText(cpu.getBinaryGPR2());	
+				resetBackGround();
+				logger.info("Load {}({}) into GPR2.", cpu.getIntGPR2(), cpu.getBinaryGPR2());
+			}
+		});
 		btnGrp2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnGrp3 = new JButton("LD");
+		btnGrp3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String status = loadCurrentStatus();
+				int value = Integer.parseInt(status, 2);
+				cpu.setGPR3(value);
+				textFieldGpr3.setText(cpu.getBinaryGPR3());	
+				resetBackGround();
+				logger.info("Load {}({}) into GPR3.", cpu.getIntGPR3(), cpu.getBinaryGPR3());
+			}
+		});
 		btnGrp3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnIxr1 = new JButton("LD");
@@ -239,10 +264,10 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
-				ixr1.setCurrentValue(value);
-				ixr1.setBinaryValue(value);
-				textFieldIxr1.setText(ixr1.getValue());	
+				cpu.setIXR1(value);
+				textFieldIxr1.setText(cpu.getBinaryIXR1());	
 				resetBackGround();
+				logger.info("Load {}({}) into IXR1.", cpu.getIntIXR1(), cpu.getBinaryIXR1());
 			}
 		});
 		btnIxr1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -252,10 +277,10 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
-				ixr2.setCurrentValue(value);
-				ixr2.setBinaryValue(value);
-				textFieldIxr2.setText(ixr2.getValue());	
+				cpu.setIXR2(value);
+				textFieldIxr2.setText(cpu.getBinaryIXR2());	
 				resetBackGround();
+				logger.info("Load {}({}) into IXR2.", cpu.getIntIXR2(), cpu.getBinaryIXR2());
 			}
 		});
 		btnIxr2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -265,10 +290,10 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
-				ixr3.setCurrentValue(value);
-				ixr3.setBinaryValue(value);
-				textFieldIxr3.setText(ixr3.getValue());	
+				cpu.setIXR3(value);
+				textFieldIxr3.setText(cpu.getBinaryIXR3());	
 				resetBackGround();
+				logger.info("Load {}({}) into IXR3.", cpu.getIntIXR3(), cpu.getBinaryIXR3());
 			}
 		});
 		btnIxr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -279,14 +304,14 @@ public class MainDashboard {
 				String status = loadCurrentStatus();		
 				if(status.substring(0, 4).equals("0000")) {
 					int value = Integer.parseInt(status, 2);
-					pc.setCurrentValue(value);
-					pc.setBinaryValue(value);
-					textFieldPC.setText(pc.getValue());
+					cpu.setPC(value);
+					textFieldPC.setText(cpu.getBinaryPC());
+					logger.info("Load {}({}) into PC.", cpu.getIntPC(), cpu.getBinaryPC());
 				}else {
 					Alert alert = new Alert();
 					alert.setLocation(frame.getSize().width/2, frame.getSize().height/2);
 					alert.setVisible(true);
-					textFieldMAR.setText(pc.getValue());
+					textFieldMAR.setText(cpu.getBinaryPC());
 				}
 				resetBackGround();
 			}
@@ -298,10 +323,10 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
-				mbr.setCurrentValue(value);
-				mbr.setBinaryValue(value);
-				textFieldMBR.setText(mbr.getValue());	
+				cpu.setMBR(value);
+				textFieldMBR.setText(cpu.getBinaryMBR());	
 				resetBackGround();
+				logger.info("Load {}({}) into MBR.", cpu.getIntMBR(), cpu.getBinaryMBR());
 			}
 		});
 		btnMBR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -309,7 +334,7 @@ public class MainDashboard {
 		JButton btnStore = new JButton("Store");
 		btnStore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
+				cpu.Store();
 				resetBackGround();
 			}
 		});
@@ -318,7 +343,8 @@ public class MainDashboard {
 		JButton btnLoad = new JButton("Load");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadMemorytoMBR();
+				cpu.Load();
+				textFieldMBR.setText(cpu.getBinaryMBR());
 				resetBackGround();
 			}
 		});
@@ -329,17 +355,17 @@ public class MainDashboard {
 		btnMAR.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String status = loadCurrentStatus();		
+				String status = loadCurrentStatus();
 				if(status.substring(0, 4).equals("0000")) {
 					int value = Integer.parseInt(status, 2);
-					mar.setCurrentValue(value);
-					mar.setBinaryValue(value);
-					textFieldMAR.setText(mar.getValue());
+					cpu.setMAR(value);
+					textFieldMAR.setText(cpu.getBinaryMAR());
+					logger.info("Load {}({}) into MAR.", cpu.getIntMAR(), cpu.getBinaryMAR());
 				}else {
 					Alert alert = new Alert();
 					alert.setLocation(frame.getSize().width/2, frame.getSize().height/2);
 					alert.setVisible(true);
-					textFieldMAR.setText(mar.getValue());
+					textFieldMAR.setText(cpu.getBinaryMAR());
 				}
 				resetBackGround();
 			}
@@ -363,9 +389,8 @@ public class MainDashboard {
 		JButton btnStorePlus = new JButton("S+");
 		btnStorePlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
-				mar.addOne();
-				textFieldMAR.setText(mar.getValue());
+				cpu.StorePlus();
+				textFieldMAR.setText(cpu.getBinaryMAR());
 				resetBackGround();
 			}
 		});
@@ -374,30 +399,13 @@ public class MainDashboard {
 		JButton btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int pcvalue = pc.getCurrentValue();
 				btnHaltStatus.setBackground(Color.WHITE);
-				while(mem.get(pcvalue) != 0) {
-					loadIR(pcvalue);
-					int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
-					int addvalue = value + ir.getAddrValue();
-					if(ir.getIValue() != 0) {
-						int indirect = mem.get(addvalue);
-						mar.setBinaryValue(indirect);
-						mar.setCurrentValue(indirect);
-					}else {
-						mar.setBinaryValue(addvalue);
-						mar.setCurrentValue(addvalue);
-					}
-					textFieldMAR.setText(mar.getValue());
-					loadMemorytoMBR();
-					loadGPR();
-					pc.addOne();
-					textFieldPC.setText(pc.getValue());
-					pcvalue = pc.getCurrentValue();
-				}
-				loadIR(pcvalue);
-				pc.addOne();
-				textFieldPC.setText(pc.getValue());
+				cpu.Run();
+				textFieldMAR.setText(cpu.getBinaryMAR());
+				textFieldMBR.setText(cpu.getBinaryMBR());
+				textFieldPC.setText(cpu.getBinaryPC());
+				updateTextFieldGPRList();
+				
 				btnHaltStatus.setBackground(new Color(0,255,0));
 			}
 		});
@@ -406,28 +414,14 @@ public class MainDashboard {
 		JButton btnSS = new JButton("SS");
 		btnSS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int pcvalue = pc.getCurrentValue();
-				loadIR(pcvalue);
-				if(mem.get(pcvalue) != 0) {
-						int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
-						int addvalue = value + ir.getAddrValue();
-						if(ir.getIValue() != 0) {
-							int indirect = mem.get(addvalue);
-							mar.setBinaryValue(indirect);
-							mar.setCurrentValue(indirect);
-						}else {
-							mar.setBinaryValue(addvalue);
-							mar.setCurrentValue(addvalue);
-						}
-						textFieldMAR.setText(mar.getValue());
-						loadMemorytoMBR();
-						loadGPR();
-						pc.addOne();
-						textFieldPC.setText(pc.getValue());
-				}else {
-					pc.addOne();
-					textFieldPC.setText(pc.getValue());
-				}
+				logger.info("SingleRun start.");
+				cpu.SingleRun();
+				textFieldIR.setText(cpu.getBinaryIR());
+				textFieldMAR.setText(cpu.getBinaryMAR());
+				textFieldMBR.setText(cpu.getBinaryMBR());
+				textFieldPC.setText(cpu.getBinaryPC());
+				updateTextFieldGPRList();			
+				logger.info("SingleRun end.");
 			}
 		});
 		btnSS.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -446,61 +440,47 @@ public class MainDashboard {
 		JButton btnInit = new JButton("Init");
 		btnInit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(int i= 0;i < GPRList.size(); i++) {
-					GPRList.get(i).setCurrentValue(0);
-					GPRList.get(i).setBinaryValue(0);
-					textFieldGPRList.get(i).setText(GPRList.get(i).getValue());
-				}
-				
-				for(int i= 0;i < textFieldIXRList.size(); i++) {
-					IXRList.get(i).setCurrentValue(0);
-					IXRList.get(i).setBinaryValue(0);
-					textFieldIXRList.get(i).setText(IXRList.get(i+1).getValue());
-				}
-
-				mar.setCurrentValue(0);
-				mar.setBinaryValue(0);
-				textFieldMAR.setText(mar.getValue());
-				mbr.setCurrentValue(0);
-				mbr.setBinaryValue(0);
-				textFieldMBR.setText(mbr.getValue());
-				pc.setCurrentValue(0);
-				pc.setBinaryValue(0);
-				textFieldPC.setText(pc.getValue());
-				ir.setCurrentValue(0);
-				ir.setBinaryValue(0);
-				textFieldIR.setText(ir.getValue());
-				mem.clear();
-				JFileChooser fileChooser = new JFileChooser();
-				String pwd = System.getProperty("user.dir");
-				fileChooser.setCurrentDirectory(new File(pwd));
-				int response = fileChooser.showOpenDialog(null);
-				if(response == JFileChooser.APPROVE_OPTION) {
-					File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-					try {
-						Scanner myReader = new Scanner(file);
-						while (myReader.hasNextLine()) {
-							String data = myReader.nextLine();
-							String[] dataSperated = data.split(" ");
-							int addr = Integer.parseInt(dataSperated[0],16);
-							int value = Integer.parseInt(dataSperated[1],16);
-							mar.setCurrentValue(addr);
-							mar.setBinaryValue(addr);
-							textFieldMAR.setText(mar.getValue());
-							mbr.setCurrentValue(value);
-							mbr.setBinaryValue(value);
-							textFieldMBR.setText(mbr.getValue());
-							mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
-						}
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
+				cpu.Init();
+				textFieldMAR.setText(cpu.getBinaryMAR());
+				textFieldMBR.setText(cpu.getBinaryMBR());
+				textFieldPC.setText(cpu.getBinaryPC());
+				textFieldIR.setText(cpu.getBinaryIR());
+				updateTextFieldGPRList();
+				updateTextFieldIXRList();
+				cpu.ReadFile();
+				textFieldMAR.setText(cpu.getBinaryMAR());
+				textFieldMBR.setText(cpu.getBinaryMBR());
 			}
 		});
 		btnInit.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnInit.setBackground(Color.RED);
+		
+		JLabel lblCC = new JLabel("CC");
+		lblCC.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		JRadioButton rdbtnCC0 = new JRadioButton("0");
+		rdbtnCC0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC0.setEnabled(false);
+		
+		JRadioButton rdbtnCC1 = new JRadioButton("1");
+		rdbtnCC1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC1.setEnabled(false);
+		
+		JRadioButton rdbtnCC2 = new JRadioButton("2");
+		rdbtnCC2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC2.setEnabled(false);
+		
+		JRadioButton rdbtnCC3 = new JRadioButton("3");
+		rdbtnCC3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC3.setEnabled(false);
+		
+		JButton btnConsole = new JButton("Console");
+		btnConsole.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				console.setVisible(true);
+			}
+		});
+		btnConsole.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -557,6 +537,30 @@ public class MainDashboard {
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(lblCC, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(rdbtnCC0, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(rdbtnCC1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(rdbtnCC2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(rdbtnCC3, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnInit, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblPC, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblMAR, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblMBR, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
@@ -565,7 +569,6 @@ public class MainDashboard {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(textFieldIR, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
-										.addComponent(textFieldMFR, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(textFieldMBR, 238, 238, 238)
 											.addGap(18)
@@ -577,30 +580,20 @@ public class MainDashboard {
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(textFieldPC, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 											.addGap(18)
-											.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED, 217, Short.MAX_VALUE))
+											.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+										.addComponent(textFieldMFR, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE))))
+							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblHalt)
+										.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+									.addGap(18)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnInit, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-												.addComponent(lblHalt)
-												.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-											.addGap(18)
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-												.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-											.addGap(63))))))
+										.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(btnConsole))
+							.addGap(41))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap(26, Short.MAX_VALUE)
 							.addComponent(panel_Operation, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
@@ -624,7 +617,8 @@ public class MainDashboard {
 						.addComponent(btnGrp0, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblPC, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldPC, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnConsole, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGpr1)
@@ -654,34 +648,36 @@ public class MainDashboard {
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblMFR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textFieldMFR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-							.addGap(25)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblIxr1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textFieldIxr1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnIxr1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblIxr2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textFieldIxr2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnIxr2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnInit, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-									.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-									.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-									.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblHalt)
-										.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+									.addGap(25)
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblIxr1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textFieldIxr1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnIxr1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))))
+									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblIxr2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textFieldIxr2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnIxr2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(18)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+											.addComponent(rdbtnCC0, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+											.addComponent(lblCC, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+											.addComponent(rdbtnCC1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+											.addComponent(rdbtnCC2, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+											.addComponent(rdbtnCC3, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblHalt)
+								.addComponent(btnHaltStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnRunStatus, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblRun, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblIxr3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
@@ -696,6 +692,17 @@ public class MainDashboard {
 						.addComponent(panel_I, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel_Address, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE))
 					.addGap(146))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(257, Short.MAX_VALUE)
+					.addComponent(btnInit, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnStore, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnStorePlus, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnRun, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSS, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+					.addGap(297))
 		);
 		
 		CustomButton btnb0 = new CustomButton();
@@ -1083,24 +1090,19 @@ public class MainDashboard {
 		return status;
 	}
 	
-	public void loadMemorytoMBR() {
-		int mbrcurrent = mem.get(mar.getCurrentValue());
-		mbr.setCurrentValue(mbrcurrent);
-		mbr.setBinaryValue(mbrcurrent);
-		textFieldMBR.setText(mbr.getValue());
+	public void updateTextFieldGPRList() {
+		for(int i=0; i<textFieldGPRList.size();i++){
+			ArrayList<GeneralPurposeRegister> gprList =  cpu.getGPRList();
+			String value =  gprList.get(i).getValue();
+			textFieldGPRList.get(i).setText(value);
+		}
 	}
 	
-	public void loadIR(int pcvalue) {
-		ir.setBinaryValue(mem.get(pcvalue));
-		ir.setCurrentValue(mem.get(pcvalue));
-		String instruction = ir.getValue();
-		textFieldIR.setText(instruction);
-	}
-	
-	public void loadGPR() {
-		int gprValue = ir.getGPRValue();
-		GPRList.get(gprValue).setCurrentValue(mbr.getCurrentValue());
-		GPRList.get(gprValue).setBinaryValue(mbr.getCurrentValue());
-		textFieldGPRList.get(gprValue).setText(GPRList.get(gprValue).getValue());;
+	public void updateTextFieldIXRList() {
+		for(int i=0; i<textFieldIXRList.size();i++){
+			ArrayList<IndexRegister> ixrList =  cpu.getIXRList();
+			String value = ixrList.get(i).getValue();
+			textFieldIXRList.get(i).setText(value);
+		}
 	}
 }

@@ -1,0 +1,9 @@
+2022-10-14 16:59:40,855 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-14 16:59:49,334 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-14 16:59:52,366 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-14 16:59:52,371 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-14 16:59:52,384 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-14 16:59:54,436 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 79(0000000001001111) into memory address 0(000000000000)
+2022-10-14 16:59:54,447 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 9(0000000000001001) into memory address 10(000000001010)
+2022-10-14 16:59:54,454 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10(0000000000001010) into memory address 32(000000100000)
+2022-10-14 16:59:54,459 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
