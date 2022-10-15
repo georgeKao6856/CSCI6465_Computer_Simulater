@@ -206,9 +206,10 @@ public class MainDashboard {
 		btnHaltStatus.setBackground(new Color(0,255,0));
 		btnHaltStatus.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
-		JButton btnGrp0 = new JButton("LD");
-		btnGrp0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnGrp0.addActionListener(new ActionListener() {
+		JButton btnGpr0 = new JButton("LD");
+		btnGpr0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		//Load current value to the GPR0.
+		btnGpr0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
@@ -220,8 +221,9 @@ public class MainDashboard {
 			}
 		});
 
-		JButton btnGrp1 = new JButton("LD");
-		btnGrp1.addActionListener(new ActionListener() {
+		JButton btnGpr1 = new JButton("LD");
+		//Load current value to GPR1.
+		btnGpr1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
@@ -231,10 +233,11 @@ public class MainDashboard {
 				logger.info("Load {}({}) into GPR1.", cpu.getIntGPR1(), cpu.getBinaryGPR1());
 			}
 		});
-		btnGrp1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnGpr1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-		JButton btnGrp2 = new JButton("LD");
-		btnGrp2.addActionListener(new ActionListener() {
+		JButton btnGpr2 = new JButton("LD");
+		//Load current value to the GPR2.
+		btnGpr2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
@@ -244,10 +247,11 @@ public class MainDashboard {
 				logger.info("Load {}({}) into GPR2.", cpu.getIntGPR2(), cpu.getBinaryGPR2());
 			}
 		});
-		btnGrp2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnGpr2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-		JButton btnGrp3 = new JButton("LD");
-		btnGrp3.addActionListener(new ActionListener() {
+		JButton btnGpr3 = new JButton("LD");
+		//Load current value to the GPR3.
+		btnGpr3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
 				int value = Integer.parseInt(status, 2);
@@ -257,7 +261,7 @@ public class MainDashboard {
 				logger.info("Load {}({}) into GPR3.", cpu.getIntGPR3(), cpu.getBinaryGPR3());
 			}
 		});
-		btnGrp3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnGpr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnIxr1 = new JButton("LD");
 		btnIxr1.addActionListener(new ActionListener() {
@@ -299,6 +303,7 @@ public class MainDashboard {
 		btnIxr3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnPC = new JButton("LD");
+		//Load current value to the PC.
 		btnPC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();		
@@ -319,6 +324,7 @@ public class MainDashboard {
 		btnPC.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnMBR = new JButton("LD");
+		//Load current value to the MBR.
 		btnMBR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String status = loadCurrentStatus();
@@ -332,6 +338,7 @@ public class MainDashboard {
 		btnMBR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnStore = new JButton("Store");
+		//Store current MBR value to the current MAR address.
 		btnStore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cpu.Store();
@@ -341,9 +348,10 @@ public class MainDashboard {
 		btnStore.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnLoad = new JButton("Load");
+		//Fetch the value from current MAR address to the MBR.
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cpu.Load();
+				cpu.Fetch();
 				textFieldMBR.setText(cpu.getBinaryMBR());
 				resetBackGround();
 			}
@@ -352,6 +360,7 @@ public class MainDashboard {
 
 		JButton btnMAR = new JButton("LD");
 		btnMAR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		//Load current value to the MAR.
 		btnMAR.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -387,6 +396,7 @@ public class MainDashboard {
 		panel_Address.setBackground(SystemColor.activeCaption);
 		
 		JButton btnStorePlus = new JButton("S+");
+		//Store current MBR value to the current MAR address, and increase one to the MAR address.
 		btnStorePlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cpu.StorePlus();
@@ -397,6 +407,7 @@ public class MainDashboard {
 		btnStorePlus.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		JButton btnRun = new JButton("Run");
+		//Run instructions until the program halt.
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnHaltStatus.setBackground(Color.WHITE);
@@ -412,6 +423,7 @@ public class MainDashboard {
 		btnRun.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		JButton btnSS = new JButton("SS");
+		//Run one instruction.
 		btnSS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logger.info("SingleRun start.");
@@ -438,6 +450,7 @@ public class MainDashboard {
 		lblRun.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		JButton btnInit = new JButton("Init");
+		//Initialize all components, and read the text file.
 		btnInit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cpu.Init();
@@ -509,16 +522,16 @@ public class MainDashboard {
 												.addComponent(textFieldGpr0, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(btnGrp0, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-												.addComponent(btnGrp1, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))
+												.addComponent(btnGpr0, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+												.addComponent(btnGpr1, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)))
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(textFieldGpr2, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(btnGrp2, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+											.addComponent(btnGpr2, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(textFieldGpr3, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(btnGrp3, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))))
+											.addComponent(btnGpr3, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 										.addComponent(lblIxr3, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
@@ -614,7 +627,7 @@ public class MainDashboard {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textFieldGpr0, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblGpr0, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnGrp0, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnGpr0, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblPC, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldPC, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPC, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
@@ -623,7 +636,7 @@ public class MainDashboard {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGpr1)
 						.addComponent(textFieldGpr1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnGrp1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnGpr1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblMAR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldMAR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnMAR, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
@@ -631,7 +644,7 @@ public class MainDashboard {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGpr2)
 						.addComponent(textFieldGpr2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnGrp2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnGpr2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblMBR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldMBR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnMBR, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
@@ -641,7 +654,7 @@ public class MainDashboard {
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblGpr3)
 								.addComponent(textFieldGpr3, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnGrp3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnGpr3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblIR, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textFieldIR, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)

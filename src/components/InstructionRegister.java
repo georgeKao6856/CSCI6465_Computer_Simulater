@@ -27,8 +27,14 @@ public class InstructionRegister extends Register  {
 		return value;
 	}
 	
-	public int getIValue() {
+	public int getIndirectValue() {
 		String iValue = getValue().substring(10,11);
+		int value = Integer.parseInt(iValue,2);
+		return value;
+	}
+	
+	public int getOperation() {
+		String iValue = getValue().substring(0,6);
 		int value = Integer.parseInt(iValue,2);
 		return value;
 	}

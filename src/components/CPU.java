@@ -3,6 +3,8 @@ package components;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
@@ -27,11 +29,14 @@ public class CPU {
 	private MemoryBufferRegister mbr = new MemoryBufferRegister(0);
 	private ProgramCounter pc = new ProgramCounter(0);
 	private InstructionRegister ir = new InstructionRegister(0);
+	private Map<Integer, Runnable> decoder = new HashMap<>();
 	
 	public CPU(Memory mem) {
 		this.mem = mem;
 		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
+		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR());
+		
 	}
 	
 	public void setMAR(int address) {
@@ -187,7 +192,7 @@ public class CPU {
 		mar.addOne();
 	}
 	
-	public void Load() {
+	public void Fetch() {
 		int mbrcurrent = mem.get(mar.getCurrentValue());
 		mbr.setCurrentValue(mbrcurrent);
 		mbr.setBinaryValue(mbrcurrent);
@@ -214,46 +219,21 @@ public class CPU {
 	}
 	
 	public void SingleRun() {
-		loadIR();
-		if(mem.get(pc.getCurrentValue()) != 0) {
-			int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
-			int addvalue = value + ir.getAddrValue();
-			if(ir.getIValue() != 0) {
-				int indirect = mem.get(addvalue);
-				mar.setBinaryValue(indirect);
-				mar.setCurrentValue(indirect);
-			}else {
-				mar.setBinaryValue(addvalue);
-				mar.setCurrentValue(addvalue);
-			}
-			Load();
-			loadGPR();
-			pc.addOne();
-		}else {
-			pc.addOne();
-
-		}
+		logger.info("Sinlge Run start.");
+		loadIR();    //Load instruction.
+		decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
+		logger.info("Sinlge Run end.");
 	}
 	
 	public void Run() {
-		while(mem.get(pc.getCurrentValue()) != 0) {
-			loadIR();
-			int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
-			int addvalue = value + ir.getAddrValue();
-			if(ir.getIValue() != 0) {
-				int indirect = mem.get(addvalue);
-				mar.setBinaryValue(indirect);
-				mar.setCurrentValue(indirect);
-			}else {
-				mar.setBinaryValue(addvalue);
-				mar.setCurrentValue(addvalue);
-			}
-			Load();
-			loadGPR();
-			pc.addOne();
+		logger.info("Run start.");
+		loadIR(); //Load instruction.
+		while(ir.getOperation() != 0) {
+			decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
+			loadIR(); //Get next instruction.
 		}
-		loadIR();
-		pc.addOne();
+		decoder.get(ir.getOperation()).run(); //Execute Halt instruction.
+		logger.info("Run end.");
 	}
 	
 	public void Init() {
@@ -308,5 +288,27 @@ public class CPU {
 			}
 		}
 		logger.info("Read file end.");
+	}
+	
+	//LDR instruction process
+	public void LDR() {
+		int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
+		int addvalue = value + ir.getAddrValue();   //Add the value of the IXR and the address.
+		if(ir.getIndirectValue() != 0) {    //Indirect Addressing Mode
+			int indirect = mem.get(addvalue);
+			mar.setBinaryValue(indirect);
+			mar.setCurrentValue(indirect);
+		}else {   //Direct Addressing mode
+			mar.setBinaryValue(addvalue);
+			mar.setCurrentValue(addvalue);
+		}
+		Fetch();    //Get MBR value from the current MAR address.
+		loadGPR();   //Put the MBR value to the GPRs.
+		pc.addOne();
+	}
+	
+	//Halt instruction process
+	public void HLT() {
+		pc.addOne();
 	}
 }
