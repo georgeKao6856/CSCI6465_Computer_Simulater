@@ -10,7 +10,7 @@ public class InstructionRegister extends Register  {
     }
 	
 	public int getAddrValue() {
-		String addr = getValue().substring(12);
+		String addr = getValue().substring(11);
 		int value = Integer.parseInt(addr,2);
 		return value;
 	}

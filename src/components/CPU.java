@@ -30,12 +30,14 @@ public class CPU {
 	private ProgramCounter pc = new ProgramCounter(0);
 	private InstructionRegister ir = new InstructionRegister(0);
 	private Map<Integer, Runnable> decoder = new HashMap<>();
+	private Cache cache = new Cache();
 	
 	public CPU(Memory mem) {
 		this.mem = mem;
 		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
-		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR());
+		//decode opcode
+		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
 		
 	}
 	
@@ -183,8 +185,18 @@ public class CPU {
 	}
 	
 	public void Store() {
-		mem.put(mar.getCurrentValue(), mbr.getCurrentValue());
-		logger.info("Store {}({}) into memory address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+		if(mar.getCurrentValue() >= mem.getMaxLength()) {
+			mem.expandMemory();
+			logger.info("Memory expand to 4096 words.");
+		}
+		if(mar.getCurrentValue() >= mem.getMaxLength() || mbr.getCurrentValue() >= 65536) {
+			logger.error("Invaild: Memory[" +  mar.getCurrentValue() + "(" + mar.getValue() + ")" + "]=>" + mbr.getCurrentValue() + "(" + mbr.getValue() + ")");
+		}else {
+			cache.addElement(mar.getCurrentValue(), mbr.getCurrentValue());
+			logger.info("Store {}({}) into cache address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+			mem.set(mar.getCurrentValue(), mbr.getCurrentValue());
+			logger.info("Store {}({}) into memory address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+		}
 	}
 	
 	public void StorePlus() {
@@ -193,10 +205,19 @@ public class CPU {
 	}
 	
 	public void Fetch() {
-		int mbrcurrent = mem.get(mar.getCurrentValue());
+		boolean control = true;
+		int mbrcurrent = cache.getElement(mar.getCurrentValue());
+		if(mbrcurrent == 0) {
+			control = false;
+			mbrcurrent = mem.get(mar.getCurrentValue());
+		}
 		mbr.setCurrentValue(mbrcurrent);
 		mbr.setBinaryValue(mbrcurrent);
-		logger.info("Load {}({}) from memory address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+		if(control) {
+			logger.info("Load {}({}) from cache address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+		}else {
+			logger.info("Load {}({}) from memory address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+		}
 	}
 	
 	public void loadIR() {
@@ -216,23 +237,33 @@ public class CPU {
 		int gprValue = ir.getGPRValue();
 		GPRList.get(gprValue).setCurrentValue(mbr.getCurrentValue());
 		GPRList.get(gprValue).setBinaryValue(mbr.getCurrentValue());
+		logger.info("Load MBR value " + mbr.getCurrentValue() + "(" + mbr.getValue() + ") into GPR " + gprValue);
 	}
 	
 	public void SingleRun() {
 		logger.info("Sinlge Run start.");
 		loadIR();    //Load instruction.
-		decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
+		try {
+			decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
+		}catch(Exception e) {
+			logger.error("There is no " + ir.getOperation() + " operation.");
+		}
+		
 		logger.info("Sinlge Run end.");
 	}
 	
 	public void Run() {
 		logger.info("Run start.");
 		loadIR(); //Load instruction.
-		while(ir.getOperation() != 0) {
-			decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
-			loadIR(); //Get next instruction.
+		try {
+			while(ir.getOperation() != 0) {
+				decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
+				loadIR(); //Get next instruction.
+			}
+			decoder.get(ir.getOperation()).run(); //Execute Halt instruction.
+		}catch(Exception e) {
+			logger.error("There is no " + ir.getOperation() + " operation.");
 		}
-		decoder.get(ir.getOperation()).run(); //Execute Halt instruction.
 		logger.info("Run end.");
 	}
 	
@@ -248,6 +279,7 @@ public class CPU {
 			IXRList.get(i).setBinaryValue(0);
 		}
 
+		cache.clear();
 		mar.setCurrentValue(0);
 		mar.setBinaryValue(0);
 		mbr.setCurrentValue(0);
@@ -290,10 +322,10 @@ public class CPU {
 		logger.info("Read file end.");
 	}
 	
-	//LDR instruction process
-	public void LDR() {
-		int value = IXRList.get(ir.getIXRValue()).getCurrentValue();
-		int addvalue = value + ir.getAddrValue();   //Add the value of the IXR and the address.
+	//Get Effective Address and set value to the MAR
+	public void getEA() {
+		int IXRvalue = IXRList.get(ir.getIXRValue()).getCurrentValue();
+		int addvalue = IXRvalue + ir.getAddrValue();
 		if(ir.getIndirectValue() != 0) {    //Indirect Addressing Mode
 			int indirect = mem.get(addvalue);
 			mar.setBinaryValue(indirect);
@@ -302,13 +334,57 @@ public class CPU {
 			mar.setBinaryValue(addvalue);
 			mar.setCurrentValue(addvalue);
 		}
-		Fetch();    //Get MBR value from the current MAR address.
-		loadGPR();   //Put the MBR value to the GPRs.
-		pc.addOne();
 	}
 	
 	//Halt instruction process
 	public void HLT() {
 		pc.addOne();
+	}
+	
+	//LDR instruction process
+	public void LDR() {
+		logger.info("LDR instruction start.");
+		getEA();
+		Fetch();    //Get MBR value from the current MAR address.
+		loadGPR();   //Put the MBR value to the GPRs.
+		pc.addOne();
+		logger.info("LDR instruction end.");
+	}
+	
+	public void STR() {
+		logger.info("STR instruction start.");
+		getEA();
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		mbr.setBinaryValue(GPRvalue);
+		mbr.setCurrentValue(GPRvalue);
+		Store();
+		pc.addOne();
+		logger.info("STR instruction end.");
+	}
+	
+	public void LDX() {
+		logger.info("LDX instruction start.");
+		getEA();
+		Fetch();
+		IXRList.get(ir.getIXRValue()).setCurrentValue(mbr.getCurrentValue());
+		IXRList.get(ir.getIXRValue()).setBinaryValue(mbr.getCurrentValue());
+		logger.info("Store mbr value {}({}) into IXR {}.", mbr.getCurrentValue(), mbr.getValue(), ir.getIXRValue());
+		pc.addOne();
+		logger.info("LDX instruction end.");
+	}
+	
+	public void STX() {
+		logger.info("STX instruction start.");
+		getEA();
+		int IXRvalue = IXRList.get(ir.getIXRValue()).getCurrentValue();
+		mbr.setCurrentValue(IXRvalue);
+		mbr.setBinaryValue(IXRvalue);
+		Store();
+		pc.addOne();
+		logger.info("STX instruction end.");
+	}
+	
+	public void JZ() {
+		
 	}
 }

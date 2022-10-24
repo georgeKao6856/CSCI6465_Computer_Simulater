@@ -416,7 +416,7 @@ public class MainDashboard {
 				textFieldMBR.setText(cpu.getBinaryMBR());
 				textFieldPC.setText(cpu.getBinaryPC());
 				updateTextFieldGPRList();
-				
+				updateTextFieldIXRList();
 				btnHaltStatus.setBackground(new Color(0,255,0));
 			}
 		});
@@ -426,14 +426,13 @@ public class MainDashboard {
 		//Run one instruction.
 		btnSS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.info("SingleRun start.");
 				cpu.SingleRun();
 				textFieldIR.setText(cpu.getBinaryIR());
 				textFieldMAR.setText(cpu.getBinaryMAR());
 				textFieldMBR.setText(cpu.getBinaryMBR());
 				textFieldPC.setText(cpu.getBinaryPC());
-				updateTextFieldGPRList();			
-				logger.info("SingleRun end.");
+				updateTextFieldGPRList();
+				updateTextFieldIXRList();
 			}
 		});
 		btnSS.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -1114,7 +1113,7 @@ public class MainDashboard {
 	public void updateTextFieldIXRList() {
 		for(int i=0; i<textFieldIXRList.size();i++){
 			ArrayList<IndexRegister> ixrList =  cpu.getIXRList();
-			String value = ixrList.get(i).getValue();
+			String value = ixrList.get(i+1).getValue();
 			textFieldIXRList.get(i).setText(value);
 		}
 	}

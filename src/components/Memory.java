@@ -1,5 +1,8 @@
 package components;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Memory {
 	
 	MemoryData[] mem;
@@ -27,9 +30,9 @@ public class Memory {
 		mem = memShrink;
 	}
 	
-	public void put(int addr, int value) {
-		MemoryData current = new MemoryData(addr, value);
-		mem[addr] = current;
+	public void set(int addr, int value) {
+			MemoryData current = new MemoryData(addr, value);
+			mem[addr] = current;
 	}
 	
 	public int get(int addr) {
@@ -44,6 +47,10 @@ public class Memory {
 		for(int i = 0; i < mem.length;i++) {
 			mem[i] = null;
 		}
+	}
+	
+	public int getMaxLength() {
+		return max_length;
 	}
 
 }
