@@ -9,5 +9,4 @@ public class ConditionCode extends Register  {
 		super(RegisterType.ConditionCode);
         setRegisterNumber(registerNumber);
     }
-	
 }

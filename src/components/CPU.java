@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import javax.swing.JFileChooser;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +25,11 @@ public class CPU {
 	private IndexRegister ixr2 = new IndexRegister(2);
 	private IndexRegister ixr3 = new IndexRegister(3);
 	private ArrayList<IndexRegister> IXRList = new ArrayList<IndexRegister>();
+	private ConditionCode cc0 = new ConditionCode(0);
+	private ConditionCode cc1 = new ConditionCode(1);
+	private ConditionCode cc2 = new ConditionCode(2);
+	private ConditionCode cc3 = new ConditionCode(3);
+	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private MemoryAddressRegister mar = new MemoryAddressRegister(0);
 	private MemoryBufferRegister mbr = new MemoryBufferRegister(0);
 	private ProgramCounter pc = new ProgramCounter(0);
@@ -46,6 +49,8 @@ public class CPU {
 		//decode opcode
 		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
 		decoder.put(10, () -> JZ()); decoder.put(11, () -> JNE()); decoder.put(3, () -> LDA()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA());
+		decoder.put(20, () -> MLT()); decoder.put(21, () -> DVD()); decoder.put(22, () -> TRR()); decoder.put(23, () -> AND()); decoder.put(24, () -> ORR());
+		decoder.put(25, () -> NOT()); decoder.put(31, () -> SRC()); decoder.put(32, () -> RRC()); decoder.put(61, () -> IN()); decoder.put(62, () -> OUT());
 	}
 	
 	public void setMAR(int address) {
@@ -489,6 +494,7 @@ public class CPU {
 		BigInteger product = contentRx.multiply(contentRy);
 		if (product.abs().compareTo(maxINT) > 0) {
 			//set CC0 to 1
+			CCList.get(0).setCurrentValue(1);
 			logger.info("MLT instruction Overflow flag.");
 		}
 		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
@@ -511,6 +517,7 @@ public class CPU {
 		int contentRy = GPRList.get(ry).getCurrentValue();
 		if (contentRy == 0) {
 			//set CC3 to 1
+			CCList.get(3).setCurrentValue(1);
 			logger.info("DVD instruction DIVZERO flag.");
 		}
 		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
@@ -531,9 +538,11 @@ public class CPU {
 		int contentRy = GPRList.get(getRY()).getCurrentValue();
 		if(contentRx == contentRy) {
 			//cc4 = 1
+			CCList.get(4).setCurrentValue(1);
 		}
 		else {
 			//cc4 = 0
+			CCList.get(4).setCurrentValue(0);
 		}
 		logger.info("TRR instruction end.");
 	}
