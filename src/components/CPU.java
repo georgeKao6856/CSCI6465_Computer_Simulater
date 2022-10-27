@@ -38,7 +38,7 @@ public class CPU {
 		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
 		//decode opcode
 		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
-		
+		decoder.put(10, () -> JZ()); decoder.put(11, () -> JNE()); decoder.put(3, () -> LDA()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA());
 	}
 	
 	public void setMAR(int address) {
@@ -385,6 +385,51 @@ public class CPU {
 	}
 	
 	public void JZ() {
+		logger.info("JZ instruction start.");
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		if(GPRvalue == 0) {
+			getEA();
+			pc.setCurrentValue(mar.getCurrentValue());
+			pc.setBinaryValue(mar.getCurrentValue());
+		}else {
+			pc.addOne();
+		}
+		logger.info("JZ instruction end.");
+	}
+	
+	public void JNE() {
+		logger.info("JNE instruction start.");
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		if(GPRvalue == 0) {
+			pc.addOne();
+		}else {
+			getEA();
+			pc.setCurrentValue(mar.getCurrentValue());
+			pc.setBinaryValue(mar.getCurrentValue());
+		}
+		logger.info("JNE instruction end.");
+	}
+	
+	public void JCC() {
+		logger.info("JCC instruction start.");
 		
+		logger.info("JCC instruction end.");
+	}
+	
+	public void JMA() {
+		logger.info("JMA instruction start.");
+		getEA();
+		pc.setCurrentValue(mar.getCurrentValue());
+		pc.setBinaryValue(mar.getCurrentValue());
+		logger.info("JMA instruction end.");
+	}
+	
+	public void LDA() {
+		logger.info("LDA instruction start.");
+		getEA();
+		GPRList.get(ir.getGPRValue()).setCurrentValue(mar.getCurrentValue());
+		GPRList.get(ir.getGPRValue()).setBinaryValue(mar.getCurrentValue());
+		pc.addOne();
+		logger.info("LDA instruction end.");
 	}
 }

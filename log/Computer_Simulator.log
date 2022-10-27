@@ -1598,3 +1598,250 @@
 2022-10-23 22:57:48,886 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10(0000000000001010) into cache address 32(000000100000)
 2022-10-23 22:57:48,889 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10(0000000000001010) into memory address 32(000000100000)
 2022-10-23 22:57:48,894 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-26 23:08:47,466 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 00:53:58,565 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 00:54:39,797 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10758(0010101000000110) into MBR.
+2022-10-27 00:54:41,651 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 00:54:42,947 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10758(0010101000000110) into cache address 10(000000001010)
+2022-10-27 00:54:42,962 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10758(0010101000000110) into memory address 10(000000001010)
+2022-10-27 00:54:44,755 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 00:54:45,467 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 00:54:45,469 [AWT-EventQueue-0] INFO  CSCI6465.logger: JZ instruction start.
+2022-10-27 00:54:45,473 [AWT-EventQueue-0] INFO  CSCI6465.logger: JZ instruction end.
+2022-10-27 00:54:45,475 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 00:54:49,601 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 00:54:49,603 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 00:55:15,489 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 00:55:25,028 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10758(0010101000000110) into MBR.
+2022-10-27 00:55:26,743 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 00:55:27,516 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10758(0010101000000110) into cache address 10(000000001010)
+2022-10-27 00:55:27,522 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10758(0010101000000110) into memory address 10(000000001010)
+2022-10-27 00:55:29,184 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 00:55:31,977 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 00:55:31,979 [AWT-EventQueue-0] INFO  CSCI6465.logger: JZ instruction start.
+2022-10-27 00:55:31,983 [AWT-EventQueue-0] INFO  CSCI6465.logger: JZ instruction end.
+2022-10-27 00:55:31,986 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 00:55:38,625 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 00:55:38,627 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:12:37,155 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 01:12:48,245 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 3590(0000111000000110) into MBR.
+2022-10-27 01:12:49,969 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 01:12:50,834 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 3590(0000111000000110) into cache address 10(000000001010)
+2022-10-27 01:12:50,839 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 3590(0000111000000110) into memory address 10(000000001010)
+2022-10-27 01:12:52,657 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 01:12:53,649 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:12:53,652 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:12:53,656 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:12:53,658 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:02,466 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:02,467 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:02,469 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:02,471 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:02,975 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:02,977 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:02,979 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:02,980 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:03,153 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:03,155 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:03,156 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:03,158 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:03,331 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:03,332 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:03,334 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:03,336 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:03,509 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:03,511 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:03,512 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:03,514 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:03,956 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:03,958 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:03,960 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:03,961 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:04,149 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:04,150 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:04,152 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:04,153 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:04,357 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:04,358 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:04,359 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:04,361 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:04,613 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:04,615 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:04,616 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:04,617 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:04,806 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:04,807 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:04,808 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:04,809 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:04,991 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:04,992 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:04,994 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:04,995 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:05,183 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:05,184 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:05,185 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:05,186 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:10,396 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:10,397 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:10,399 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:10,400 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:10,649 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:10,651 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:10,652 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:10,654 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:10,811 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:10,812 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:10,813 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:10,814 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:24,753 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 01:13:34,183 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 3335(0000110100000111) into MBR.
+2022-10-27 01:13:35,822 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 01:13:36,716 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 3335(0000110100000111) into cache address 10(000000001010)
+2022-10-27 01:13:36,723 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 3335(0000110100000111) into memory address 10(000000001010)
+2022-10-27 01:13:38,415 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 01:13:39,341 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:39,345 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction start.
+2022-10-27 01:13:39,349 [AWT-EventQueue-0] INFO  CSCI6465.logger: LDA instruction end.
+2022-10-27 01:13:39,351 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:41,264 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:41,266 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:42,853 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:42,856 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:43,100 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:43,102 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 01:13:43,261 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 01:13:43,264 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:27:55,824 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 13:28:21,521 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 14086(0011011100000110) into MBR.
+2022-10-27 13:28:23,401 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 13:28:24,064 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 14086(0011011100000110) into cache address 10(000000001010)
+2022-10-27 13:28:24,070 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 14086(0011011100000110) into memory address 10(000000001010)
+2022-10-27 13:28:26,232 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 13:28:28,148 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:28,150 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:28,153 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:28,155 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:31,242 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:31,244 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:38,522 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:38,524 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:38,952 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:38,955 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:39,138 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:39,139 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:39,324 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:39,325 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:39,327 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:39,329 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:39,470 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:39,472 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:39,640 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:39,642 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:39,819 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:39,821 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:40,026 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:40,028 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:40,243 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:40,245 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:40,246 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:40,247 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:40,436 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:40,437 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:40,606 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:40,607 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:40,806 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:40,807 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:41,129 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:41,130 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:41,424 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:41,426 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:41,427 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:41,429 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:41,710 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:41,711 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:42,096 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:42,097 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:42,374 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:42,375 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:42,573 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:42,575 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:42,784 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:42,786 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:42,787 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:42,789 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:43,046 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:43,047 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:43,330 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:43,331 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:43,570 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:43,571 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:43,816 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:43,818 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:44,056 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:44,057 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:44,059 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:44,060 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:44,281 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:44,282 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:44,480 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:44,481 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:44,674 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:44,675 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:44,874 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:44,875 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:45,084 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:45,085 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:45,086 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:45,088 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:45,276 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:45,277 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:45,476 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:45,477 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:45,678 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:45,679 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:45,854 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:45,855 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:46,048 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:46,049 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:46,050 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:46,051 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:46,249 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:46,250 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:46,434 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:46,435 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:46,650 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:46,651 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:46,844 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:46,846 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:47,036 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:47,037 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:47,038 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:47,040 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:47,227 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:47,229 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:47,439 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:47,440 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:47,646 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:47,647 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:47,846 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:47,847 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:48,032 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:48,033 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:48,035 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:48,036 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:48,232 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:48,233 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:48,434 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:48,435 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:48,665 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:48,666 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:48,858 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:48,859 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:49,028 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:49,029 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction start.
+2022-10-27 13:28:49,030 [AWT-EventQueue-0] INFO  CSCI6465.logger: JMA instruction end.
+2022-10-27 13:28:49,031 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:49,236 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:49,237 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 13:28:49,436 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 13:28:49,437 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
