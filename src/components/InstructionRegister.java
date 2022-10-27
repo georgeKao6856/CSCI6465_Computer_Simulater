@@ -50,6 +50,7 @@ public class InstructionRegister extends Register  {
 		int value = Integer.parseInt(alValue);
 		return value;
 	}
+	
 	public int getLRValue() {
 		String lrValue = getValue().substring(9,10);
 		int value = Integer.parseInt(lrValue);

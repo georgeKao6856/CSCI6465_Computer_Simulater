@@ -5,10 +5,11 @@ import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
 import javax.swing.JFileChooser;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,17 +26,17 @@ public class CPU {
 	private IndexRegister ixr2 = new IndexRegister(2);
 	private IndexRegister ixr3 = new IndexRegister(3);
 	private ArrayList<IndexRegister> IXRList = new ArrayList<IndexRegister>();
-	private ConditionCode cc0 = new ConditionCode(0); //Overflow
-	private ConditionCode cc1 = new ConditionCode(1); //Underflow
-	private ConditionCode cc2 = new ConditionCode(2); //DivZero
-	private ConditionCode cc3 = new ConditionCode(3); //EqualorNot
-	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private MemoryAddressRegister mar = new MemoryAddressRegister(0);
 	private MemoryBufferRegister mbr = new MemoryBufferRegister(0);
 	private ProgramCounter pc = new ProgramCounter(0);
 	private InstructionRegister ir = new InstructionRegister(0);
 	private Map<Integer, Runnable> decoder = new HashMap<>();
 	private Cache cache = new Cache();
+	private ConditionCode cc0 = new ConditionCode(0); //Overflow
+	private ConditionCode cc1 = new ConditionCode(1); //Underflow
+	private ConditionCode cc2 = new ConditionCode(2); //DivZero
+	private ConditionCode cc3 = new ConditionCode(3); //EqualorNot
+	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
 	private Devices printer = new Devices();
 	private Devices keyboard = new Devices();
@@ -46,9 +47,11 @@ public class CPU {
 		this.mem = mem;
 		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
+		CCList.add(cc0); CCList.add(cc1); CCList.add(cc2); CCList.add(cc3);
+		devicesList.add(printer); devicesList.add(keyboard); devicesList.add(cardReader);
 		//decode opcode
-		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
-		decoder.put(10, () -> JZ()); decoder.put(11, () -> JNE()); decoder.put(3, () -> LDA()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA());
+		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR());  decoder.put(3, () -> LDA()); decoder.put(10, () -> JZ());
+		decoder.put(11, () -> JNE()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
 		decoder.put(20, () -> MLT()); decoder.put(21, () -> DVD()); decoder.put(22, () -> TRR()); decoder.put(23, () -> AND()); decoder.put(24, () -> ORR());
 		decoder.put(25, () -> NOT()); decoder.put(31, () -> SRC()); decoder.put(32, () -> RRC()); decoder.put(61, () -> IN()); decoder.put(62, () -> OUT());
 	}
@@ -357,36 +360,6 @@ public class CPU {
 		pc.addOne();
 	}
 	
-	public int getRX() {
-		return ir.getGPRValue();
-	}
-	
-	public int getRY() {
-		return ir.getIXRValue();
-	}
-	
-	public String rightShift(String bitValue, int count, int ALvalue) {
-		char sign;
-		if (ALvalue == 0) {
-			sign = bitValue.charAt(0);
-		}
-		else {
-			sign = '0';
-		}
-        for (int i = 0; i < count; i++) {
-        	bitValue = sign + bitValue.substring(0, gpr0.getsizeofRegister() - 1);
-        }
-
-        return bitValue;
-	}
-	public String leftShift(String bitValue, int count) {
-		for (int i = 0; i < count; i++) {
-        	bitValue = bitValue.substring(1, gpr0.getsizeofRegister()) + "0";
-        }
-
-        return bitValue;
-	}
-	
 	//LDR instruction process
 	public void LDR() {
 		logger.info("LDR instruction start.");
@@ -485,29 +458,6 @@ public class CPU {
 		pc.addOne();
 		logger.info("LDA instruction end.");
 	}
-	public void MLT() {
-		logger.info("MLT instruction start.");
-		int rx = getRX();
-		int ry = getRY();
-		BigInteger contentRx = BigInteger.valueOf(GPRList.get(rx).getCurrentValue());
-		BigInteger contentRy = BigInteger.valueOf(GPRList.get(ry).getCurrentValue());
-		BigInteger product = contentRx.multiply(contentRy);
-		if (product.abs().compareTo(maxINT) > 0) {
-			//set CC0 to 1
-			CCList.get(0).setCurrentValue(1);
-			logger.info("MLT instruction Overflow flag.");
-		}
-		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
-			GPRList.get(rx).setCurrentValue(product.divide(maxINT).intValue());
-			GPRList.get(rx).setBinaryValue (product.divide(maxINT).intValue());
-			GPRList.get(rx+1).setCurrentValue(product.mod(maxINT).intValue());
-			GPRList.get(rx+1).setBinaryValue (product.mod(maxINT).intValue());
-			logger.info("MLT instruction end.");
-		}
-		else {
-			logger.info("DVD instruction- rx and ry must be 0 or 2.");
-		}
-	}
 	
 	public void DVD() {
 		logger.info("DVD instruction start.");
@@ -566,6 +516,7 @@ public class CPU {
 		GPRList.get(rx).setBinaryValue (contentRx | contentRy);
 		logger.info("ORR instruction end.");
 	}
+	
 	public void NOT() {
 		logger.info("NOT instruction start.");
 		int rx = getRX();
@@ -644,5 +595,59 @@ public class CPU {
 		}
 		logger.info("OUT instruction end with no action.");
 	}
-}
+	
+	public void MLT() {
+		logger.info("MLT instruction start.");
+		int rx = getRX();
+		int ry = getRY();
+		BigInteger contentRx = BigInteger.valueOf(GPRList.get(rx).getCurrentValue());
+		BigInteger contentRy = BigInteger.valueOf(GPRList.get(ry).getCurrentValue());
+		BigInteger product = contentRx.multiply(contentRy);
+		if (product.abs().compareTo(maxINT) > 0) {
+			//set CC0 to 1
+			CCList.get(0).setCurrentValue(1);
+			logger.info("MLT instruction Overflow flag.");
+		}
+		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
+			GPRList.get(rx).setCurrentValue(product.divide(maxINT).intValue());
+			GPRList.get(rx).setBinaryValue (product.divide(maxINT).intValue());
+			GPRList.get(rx+1).setCurrentValue(product.mod(maxINT).intValue());
+			GPRList.get(rx+1).setBinaryValue (product.mod(maxINT).intValue());
+			logger.info("MLT instruction end.");
+		}
+		else {
+			logger.info("DVD instruction- rx and ry must be 0 or 2.");
+		}
+	}
+	
+	public String rightShift(String bitValue, int count, int ALvalue) {
+		char sign;
+		if (ALvalue == 0) {
+			sign = bitValue.charAt(0);
+		}
+		else {
+			sign = '0';
+		}
+        for (int i = 0; i < count; i++) {
+        	bitValue = sign + bitValue.substring(0, gpr0.getsizeofRegister() - 1);
+        }
 
+        return bitValue;
+	}
+	
+	public String leftShift(String bitValue, int count) {
+		for (int i = 0; i < count; i++) {
+        	bitValue = bitValue.substring(1, gpr0.getsizeofRegister()) + "0";
+        }
+
+        return bitValue;
+	}
+	
+	public int getRX() {
+		return ir.getGPRValue();
+	}
+	
+	public int getRY() {
+		return ir.getIXRValue();
+	}
+}

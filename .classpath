@@ -6,8 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="logback-classic-1.2.11.jar"/>
-	<classpathentry kind="lib" path="logback-core-1.2.11.jar"/>
-	<classpathentry kind="lib" path="slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="D:/george_files/GW/CSCI6461 Computer Architecture/project/CSCI6465_Computer_Simulator/logback-classic-1.2.11.jar"/>
+	<classpathentry kind="lib" path="D:/george_files/GW/CSCI6461 Computer Architecture/project/CSCI6465_Computer_Simulator/logback-core-1.2.11.jar"/>
+	<classpathentry kind="lib" path="D:/george_files/GW/CSCI6461 Computer Architecture/project/CSCI6465_Computer_Simulator/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
