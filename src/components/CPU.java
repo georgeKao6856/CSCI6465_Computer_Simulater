@@ -2,8 +2,10 @@ package components;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -31,7 +33,11 @@ public class CPU {
 	private InstructionRegister ir = new InstructionRegister(0);
 	private Map<Integer, Runnable> decoder = new HashMap<>();
 	private Cache cache = new Cache();
-	//private ConditionCode cc = new ConditionCode();
+	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
+	private Devices printer = new Devices();
+	private Devices keyboard = new Devices();
+	private Devices cardReader = new Devices();
+	private ArrayList<Devices> devicesList = new ArrayList<>(Devices.MaxDevices);
 	
 	public CPU(Memory mem) {
 		this.mem = mem;
@@ -346,6 +352,36 @@ public class CPU {
 		pc.addOne();
 	}
 	
+	public int getRX() {
+		return ir.getGPRValue();
+	}
+	
+	public int getRY() {
+		return ir.getIXRValue();
+	}
+	
+	public String rightShift(String bitValue, int count, int ALvalue) {
+		char sign;
+		if (ALvalue == 0) {
+			sign = bitValue.charAt(0);
+		}
+		else {
+			sign = '0';
+		}
+        for (int i = 0; i < count; i++) {
+        	bitValue = sign + bitValue.substring(0, gpr0.getsizeofRegister() - 1);
+        }
+
+        return bitValue;
+	}
+	public String leftShift(String bitValue, int count) {
+		for (int i = 0; i < count; i++) {
+        	bitValue = bitValue.substring(1, gpr0.getsizeofRegister()) + "0";
+        }
+
+        return bitValue;
+	}
+	
 	//LDR instruction process
 	public void LDR() {
 		logger.info("LDR instruction start.");
@@ -444,4 +480,160 @@ public class CPU {
 		pc.addOne();
 		logger.info("LDA instruction end.");
 	}
+	public void MLT() {
+		logger.info("MLT instruction start.");
+		int rx = getRX();
+		int ry = getRY();
+		BigInteger contentRx = BigInteger.valueOf(GPRList.get(rx).getCurrentValue());
+		BigInteger contentRy = BigInteger.valueOf(GPRList.get(ry).getCurrentValue());
+		BigInteger product = contentRx.multiply(contentRy);
+		if (product.abs().compareTo(maxINT) > 0) {
+			//set CC0 to 1
+			logger.info("MLT instruction Overflow flag.");
+		}
+		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
+			GPRList.get(rx).setCurrentValue(product.divide(maxINT).intValue());
+			GPRList.get(rx).setBinaryValue (product.divide(maxINT).intValue());
+			GPRList.get(rx+1).setCurrentValue(product.mod(maxINT).intValue());
+			GPRList.get(rx+1).setBinaryValue (product.mod(maxINT).intValue());
+			logger.info("MLT instruction end.");
+		}
+		else {
+			logger.info("DVD instruction- rx and ry must be 0 or 2.");
+		}
+	}
+	
+	public void DVD() {
+		logger.info("DVD instruction start.");
+		int rx = getRX();
+		int ry = getRY();
+		int contentRx = GPRList.get(rx).getCurrentValue();
+		int contentRy = GPRList.get(ry).getCurrentValue();
+		if (contentRy == 0) {
+			//set CC3 to 1
+			logger.info("DVD instruction DIVZERO flag.");
+		}
+		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
+			GPRList.get(rx).setCurrentValue(contentRx / contentRy);
+			GPRList.get(rx).setBinaryValue (contentRx / contentRy);
+			GPRList.get(rx+1).setCurrentValue(contentRx % contentRy);
+			GPRList.get(rx+1).setBinaryValue (contentRx % contentRy);
+			logger.info("DVD instruction end.");
+		}
+		else {
+			logger.info("DVD instruction- rx and ry must be 0 or 2.");
+		}
+	}
+	
+	public void TRR() {
+		logger.info("TRR instruction start.");
+		int contentRx = GPRList.get(getRX()).getCurrentValue();
+		int contentRy = GPRList.get(getRY()).getCurrentValue();
+		if(contentRx == contentRy) {
+			//cc4 = 1
+		}
+		else {
+			//cc4 = 0
+		}
+		logger.info("TRR instruction end.");
+	}
+	
+	public void AND() {
+		logger.info("AND instruction start.");
+		int rx = getRX();
+		int contentRx = GPRList.get(rx).getCurrentValue();
+		int contentRy = GPRList.get(getRY()).getCurrentValue();
+		GPRList.get(rx).setCurrentValue(contentRx & contentRy);
+		GPRList.get(rx).setBinaryValue (contentRx & contentRy);
+		logger.info("AND instruction end.");
+	}
+	
+	public void ORR() {
+		logger.info("ORR instruction start.");
+		int rx = getRX();
+		int contentRx = GPRList.get(rx).getCurrentValue();
+		int contentRy = GPRList.get(getRY()).getCurrentValue();
+		GPRList.get(rx).setCurrentValue(contentRx | contentRy);
+		GPRList.get(rx).setBinaryValue (contentRx | contentRy);
+		logger.info("ORR instruction end.");
+	}
+	public void NOT() {
+		logger.info("NOT instruction start.");
+		int rx = getRX();
+		int contentRx = GPRList.get(rx).getCurrentValue();
+		GPRList.get(rx).setCurrentValue(~contentRx);
+		GPRList.get(rx).setBinaryValue (~contentRx);
+		logger.info("NOT instruction end.");
+	}
+	
+	public void SRC() {
+		logger.info("SRC instruction start.");
+		int register = getRX();
+		String contentRx = GPRList.get(register).getValue();
+		int count = ir.getCountValue();
+		int lr = ir.getLRValue();
+		int al = ir.getALValue();
+		String result = "";
+		if (lr == 0) {	//right shift
+			result = rightShift(contentRx,count,al);
+		}
+		else {	//left shift
+			result = leftShift(contentRx,count);
+		}
+		
+		GPRList.get(register).setCurrentValue(Integer.parseInt(result, 2));
+		GPRList.get(register).setBinaryValue (Integer.parseInt(result, 2));
+		logger.info("SRC instruction end.");
+	}
+	
+	public void RRC() {
+		logger.info("RRC instruction start.");
+		int register = getRX();
+		String contentRx = GPRList.get(register).getValue();
+		int count = ir.getCountValue();
+		int lr = ir.getLRValue();
+		int registerSize = GPRList.get(register).getsizeofRegister();
+		if (lr == 0) {	//right shift
+			for(int i=0; i<count; i++) {
+				contentRx = contentRx.charAt(registerSize- 1) + contentRx.substring(0, registerSize - 1);
+			}
+		}
+		else {	//left shift
+			for(int i=0; i<count; i++) {
+				contentRx = contentRx.substring(1) + contentRx.charAt(0);
+			}
+		}
+		
+		GPRList.get(register).setCurrentValue(Integer.parseInt(contentRx, 2));
+		GPRList.get(register).setBinaryValue (Integer.parseInt(contentRx, 2));
+		logger.info("RRC instruction end.");
+	}
+	
+	//input to register from device
+	public void IN() {
+		logger.info("IN instruction start.");
+		int register = getRX();
+		int devid = ir.getAddrValue();
+		if(devid != 1) {
+			String value = devicesList.get(devid).getValue();
+			GPRList.get(register).setCurrentValue(Integer.parseInt(value, 2));
+			GPRList.get(register).setBinaryValue (Integer.parseInt(value, 2));
+			logger.info("IN instruction end.");
+		}
+		logger.info("IN instruction end with no action.");
+	}
+	
+	// to device from register 
+	public void OUT() {
+		logger.info("IN instruction start.");
+		int register = getRX();
+		int devid = ir.getAddrValue();
+		if(devid != 0) {
+			String value = GPRList.get(register).getValue();
+			devicesList.get(devid).setValue(value);
+			logger.info("OUT instruction end.");
+		}
+		logger.info("OUT instruction end with no action.");
+	}
 }
+

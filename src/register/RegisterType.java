@@ -13,7 +13,7 @@ public enum RegisterType {
     MemoryFaultRegister("MFR", 4),
     MemoryBufferRegister("MBR", 16),
     ProgramCounter("PC", 12),
-    ConditionCode("CC", 4);
+    ConditionCode("CC", 1);
 
     private String type;
     private int size;

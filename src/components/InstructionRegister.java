@@ -38,4 +38,21 @@ public class InstructionRegister extends Register  {
 		int value = Integer.parseInt(iValue,2);
 		return value;
 	}
+	
+	public int getCountValue() {
+		String addr = getValue().substring(12);
+		int value = Integer.parseInt(addr,2);
+		return value;
+	}
+	
+	public int getALValue() {
+		String alValue = getValue().substring(8,9);
+		int value = Integer.parseInt(alValue);
+		return value;
+	}
+	public int getLRValue() {
+		String lrValue = getValue().substring(9,10);
+		int value = Integer.parseInt(lrValue);
+		return value;
+	}
 }
