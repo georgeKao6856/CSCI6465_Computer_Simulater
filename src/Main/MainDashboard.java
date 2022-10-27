@@ -439,11 +439,11 @@ public class MainDashboard {
 				textFieldPC.setText(cpu.getBinaryPC());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
-				/*for(int i=0; i<cpu.getCCStatus().size(); i++) {
-					if(cpu.getCCStatus().get(i).equals(true)) {
-						ccButtonList.get(i).setSelected(true);;
+				for(int i=0; i < ccButtonList.size(); i++) {
+					if(cpu.getCCList().get(i).getCurrentValue() == 1) {
+						ccButtonList.get(i).setSelected(true);
 					}
-				}*/
+				}
 				btnHaltStatus.setBackground(new Color(0,255,0));
 			}
 		});
@@ -460,11 +460,11 @@ public class MainDashboard {
 				textFieldPC.setText(cpu.getBinaryPC());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
-				/*for(int i=0; i<cpu.getCCStatus().size(); i++) {
-					if(cpu.getCCStatus().get(i).equals(true)) {
+				for(int i=0; i < ccButtonList.size(); i++) {
+					if(cpu.getCCList().get(i).getCurrentValue() == 1) {
 						ccButtonList.get(i).setSelected(true);;
 					}
-				}*/
+				}
 			}
 		});
 		btnSS.setFont(new Font("Times New Roman", Font.PLAIN, 20));

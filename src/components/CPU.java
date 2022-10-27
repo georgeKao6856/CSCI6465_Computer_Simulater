@@ -199,9 +199,9 @@ public class CPU {
 		return gpr3.getCurrentValue();
 	}
 	
-	/*public ArrayList getCCStatus() {
-		return cc.getCCStatus();
-	}*/
+	public ArrayList<ConditionCode> getCCList() {
+		return CCList;
+	}
 	
 	public void Store() {
 		if(mar.getCurrentValue() >= mem.getMaxLength()) {
@@ -431,14 +431,16 @@ public class CPU {
 	
 	public void JCC() {
 		logger.info("JCC instruction start.");
-		/*getEA();
+		getEA();
 		int ccValue = ir.getGPRValue();
-		if(cc.getCCStatus().get(ccValue).equals(true)) {
+		CCList.get(ccValue).setCurrentValue(1);
+		CCList.get(ccValue).setBinaryValue(1);
+		if(CCList.get(ccValue).getCurrentValue() == 1) {
 			pc.setCurrentValue(mar.getCurrentValue());
 			pc.setBinaryValue(mar.getCurrentValue());
 		}else {
 			pc.addOne();
-		}*/
+		}
 		logger.info("JCC instruction end.");
 	}
 	

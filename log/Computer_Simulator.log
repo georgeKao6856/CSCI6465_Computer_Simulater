@@ -1,1 +1,78 @@
 2022-10-27 17:33:00,397 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:39:31,959 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:40:06,126 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 12294(0011000000000110) into MBR.
+2022-10-27 17:40:07,889 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 17:40:08,590 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 12294(0011000000000110) into cache address 10(000000001010)
+2022-10-27 17:40:08,597 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 12294(0011000000000110) into memory address 10(000000001010)
+2022-10-27 17:40:09,993 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 17:40:10,895 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:10,897 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction start.
+2022-10-27 17:40:10,900 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction end.
+2022-10-27 17:40:10,903 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:13,562 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:13,564 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:14,024 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:14,026 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:14,403 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:14,405 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:14,773 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:14,775 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:14,981 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:14,983 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction start.
+2022-10-27 17:40:14,985 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction end.
+2022-10-27 17:40:14,987 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:15,158 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:15,160 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:40:15,352 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:40:15,354 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:53:49,210 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:53:54,061 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 12294(0011000000000110) into MBR.
+2022-10-27 17:53:56,024 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into MAR.
+2022-10-27 17:53:56,957 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 12294(0011000000000110) into cache address 10(000000001010)
+2022-10-27 17:53:56,964 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 12294(0011000000000110) into memory address 10(000000001010)
+2022-10-27 17:53:58,922 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(000000001010) into PC.
+2022-10-27 17:53:59,607 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:53:59,609 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction start.
+2022-10-27 17:53:59,612 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction end.
+2022-10-27 17:53:59,614 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:00,756 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:00,758 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:01,081 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:01,083 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:01,273 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:01,274 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:01,451 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:01,453 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:01,627 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:01,628 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction start.
+2022-10-27 17:54:01,630 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction end.
+2022-10-27 17:54:01,631 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:01,813 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:01,814 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:01,982 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:01,984 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:02,145 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:02,147 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:02,312 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:02,314 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:02,483 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:02,485 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction start.
+2022-10-27 17:54:02,486 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction end.
+2022-10-27 17:54:02,488 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:02,644 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:02,646 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:02,790 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:02,792 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:02,953 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:02,954 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:03,100 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:03,102 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:03,231 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:03,232 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction start.
+2022-10-27 17:54:03,233 [AWT-EventQueue-0] INFO  CSCI6465.logger: JCC instruction end.
+2022-10-27 17:54:03,234 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:03,354 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 17:54:03,356 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 17:54:24,475 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:54:31,197 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:54:35,326 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
