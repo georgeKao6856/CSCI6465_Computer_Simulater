@@ -25,10 +25,10 @@ public class CPU {
 	private IndexRegister ixr2 = new IndexRegister(2);
 	private IndexRegister ixr3 = new IndexRegister(3);
 	private ArrayList<IndexRegister> IXRList = new ArrayList<IndexRegister>();
-	private ConditionCode cc0 = new ConditionCode(0);
-	private ConditionCode cc1 = new ConditionCode(1);
-	private ConditionCode cc2 = new ConditionCode(2);
-	private ConditionCode cc3 = new ConditionCode(3);
+	private ConditionCode cc0 = new ConditionCode(0); //Overflow
+	private ConditionCode cc1 = new ConditionCode(1); //Underflow
+	private ConditionCode cc2 = new ConditionCode(2); //DivZero
+	private ConditionCode cc3 = new ConditionCode(3); //EqualorNot
 	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private MemoryAddressRegister mar = new MemoryAddressRegister(0);
 	private MemoryBufferRegister mbr = new MemoryBufferRegister(0);
@@ -516,8 +516,8 @@ public class CPU {
 		int contentRx = GPRList.get(rx).getCurrentValue();
 		int contentRy = GPRList.get(ry).getCurrentValue();
 		if (contentRy == 0) {
-			//set CC3 to 1
-			CCList.get(3).setCurrentValue(1);
+			//set CC2 to 1
+			CCList.get(2).setCurrentValue(1);
 			logger.info("DVD instruction DIVZERO flag.");
 		}
 		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
@@ -537,12 +537,12 @@ public class CPU {
 		int contentRx = GPRList.get(getRX()).getCurrentValue();
 		int contentRy = GPRList.get(getRY()).getCurrentValue();
 		if(contentRx == contentRy) {
-			//cc4 = 1
-			CCList.get(4).setCurrentValue(1);
+			//cc3 = 1
+			CCList.get(3).setCurrentValue(1);
 		}
 		else {
-			//cc4 = 0
-			CCList.get(4).setCurrentValue(0);
+			//cc3 = 0
+			CCList.get(3).setCurrentValue(0);
 		}
 		logger.info("TRR instruction end.");
 	}
