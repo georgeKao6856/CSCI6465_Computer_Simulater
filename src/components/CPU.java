@@ -31,6 +31,7 @@ public class CPU {
 	private InstructionRegister ir = new InstructionRegister(0);
 	private Map<Integer, Runnable> decoder = new HashMap<>();
 	private Cache cache = new Cache();
+	//private ConditionCode cc = new ConditionCode();
 	
 	public CPU(Memory mem) {
 		this.mem = mem;
@@ -183,6 +184,10 @@ public class CPU {
 	public int getIntGPR3() {
 		return gpr3.getCurrentValue();
 	}
+	
+	/*public ArrayList getCCStatus() {
+		return cc.getCCStatus();
+	}*/
 	
 	public void Store() {
 		if(mar.getCurrentValue() >= mem.getMaxLength()) {
@@ -412,7 +417,14 @@ public class CPU {
 	
 	public void JCC() {
 		logger.info("JCC instruction start.");
-		
+		/*getEA();
+		int ccValue = ir.getGPRValue();
+		if(cc.getCCStatus().get(ccValue).equals(true)) {
+			pc.setCurrentValue(mar.getCurrentValue());
+			pc.setBinaryValue(mar.getCurrentValue());
+		}else {
+			pc.addOne();
+		}*/
 		logger.info("JCC instruction end.");
 	}
 	

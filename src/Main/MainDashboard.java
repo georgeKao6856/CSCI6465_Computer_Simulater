@@ -44,6 +44,7 @@ public class MainDashboard {
 	private Memory mem = new Memory();
 	private ArrayList<JTextField> textFieldGPRList = new ArrayList<JTextField>();
 	private ArrayList<JTextField> textFieldIXRList = new ArrayList<JTextField>();
+	private ArrayList<JRadioButton> ccButtonList = new ArrayList<JRadioButton>();
 	private JFrame console;
 	private CPU cpu = new CPU(mem);
 	public static final Logger logger = LoggerFactory.getLogger("CSCI6465.logger");
@@ -199,6 +200,27 @@ public class MainDashboard {
 		textFieldMFR.setEditable(false);
 		textFieldMFR.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		textFieldMFR.setColumns(10);
+		
+		JLabel lblCC = new JLabel("CC");
+		lblCC.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		JRadioButton rdbtnCC0 = new JRadioButton("0");
+		rdbtnCC0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC0.setEnabled(false);
+		
+		JRadioButton rdbtnCC1 = new JRadioButton("1");
+		rdbtnCC1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC1.setEnabled(false);
+		
+		JRadioButton rdbtnCC2 = new JRadioButton("2");
+		rdbtnCC2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC2.setEnabled(false);
+		
+		JRadioButton rdbtnCC3 = new JRadioButton("3");
+		rdbtnCC3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		rdbtnCC3.setEnabled(false);
+		
+		ccButtonList.add(rdbtnCC0); ccButtonList.add(rdbtnCC1); ccButtonList.add(rdbtnCC2); ccButtonList.add(rdbtnCC3);
 		
 		CustomButton btnHaltStatus = new CustomButton();
 		btnHaltStatus.setEnabled(false);
@@ -417,6 +439,11 @@ public class MainDashboard {
 				textFieldPC.setText(cpu.getBinaryPC());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
+				/*for(int i=0; i<cpu.getCCStatus().size(); i++) {
+					if(cpu.getCCStatus().get(i).equals(true)) {
+						ccButtonList.get(i).setSelected(true);;
+					}
+				}*/
 				btnHaltStatus.setBackground(new Color(0,255,0));
 			}
 		});
@@ -433,6 +460,11 @@ public class MainDashboard {
 				textFieldPC.setText(cpu.getBinaryPC());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
+				/*for(int i=0; i<cpu.getCCStatus().size(); i++) {
+					if(cpu.getCCStatus().get(i).equals(true)) {
+						ccButtonList.get(i).setSelected(true);;
+					}
+				}*/
 			}
 		});
 		btnSS.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -466,25 +498,6 @@ public class MainDashboard {
 		});
 		btnInit.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnInit.setBackground(Color.RED);
-		
-		JLabel lblCC = new JLabel("CC");
-		lblCC.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		
-		JRadioButton rdbtnCC0 = new JRadioButton("0");
-		rdbtnCC0.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		rdbtnCC0.setEnabled(false);
-		
-		JRadioButton rdbtnCC1 = new JRadioButton("1");
-		rdbtnCC1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		rdbtnCC1.setEnabled(false);
-		
-		JRadioButton rdbtnCC2 = new JRadioButton("2");
-		rdbtnCC2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		rdbtnCC2.setEnabled(false);
-		
-		JRadioButton rdbtnCC3 = new JRadioButton("3");
-		rdbtnCC3.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		rdbtnCC3.setEnabled(false);
 		
 		JButton btnConsole = new JButton("Console");
 		btnConsole.addActionListener(new ActionListener() {
