@@ -9,9 +9,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import Main.Keyboard;
+import Main.Keyboard2;
+import Main.Panels;
 
 public class CPU {
 	public static final Logger logger = LoggerFactory.getLogger("CSCI6465.logger");
@@ -38,17 +43,15 @@ public class CPU {
 	private ConditionCode cc3 = new ConditionCode(3); //EqualorNot
 	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
-	private Devices printer = new Devices();
-	private Devices keyboard = new Devices();
-	private Devices cardReader = new Devices();
-	private ArrayList<Devices> devicesList = new ArrayList<>(Devices.MaxDevices);
+	public static String keyboardInput;
+	Panels panel;
 	
-	public CPU(Memory mem) {
+	public CPU(Memory mem, Panels panel) {
 		this.mem = mem;
+		this.panel = panel;
 		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
 		CCList.add(cc0); CCList.add(cc1); CCList.add(cc2); CCList.add(cc3);
-		devicesList.add(printer); devicesList.add(keyboard); devicesList.add(cardReader);
 		//decode opcode
 		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR());  decoder.put(3, () -> LDA()); decoder.put(10, () -> JZ());
 		decoder.put(11, () -> JNE()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
@@ -267,7 +270,6 @@ public class CPU {
 		}catch(Exception e) {
 			logger.error("There is no " + ir.getOperation() + " operation.");
 		}
-		
 		logger.info("Sinlge Run end.");
 	}
 	
@@ -487,6 +489,7 @@ public class CPU {
 		else {
 			logger.info("DVD instruction- rx and ry must be 0 or 2.");
 		}
+		pc.addOne();
 	}
 	
 	public void TRR() {
@@ -502,6 +505,7 @@ public class CPU {
 			CCList.get(3).setCurrentValue(0);
 		}
 		logger.info("TRR instruction end.");
+		pc.addOne();
 	}
 	
 	public void AND() {
@@ -512,6 +516,7 @@ public class CPU {
 		GPRList.get(rx).setCurrentValue(contentRx & contentRy);
 		GPRList.get(rx).setBinaryValue (contentRx & contentRy);
 		logger.info("AND instruction end.");
+		pc.addOne();
 	}
 	
 	public void ORR() {
@@ -522,6 +527,7 @@ public class CPU {
 		GPRList.get(rx).setCurrentValue(contentRx | contentRy);
 		GPRList.get(rx).setBinaryValue (contentRx | contentRy);
 		logger.info("ORR instruction end.");
+		pc.addOne();
 	}
 	
 	public void NOT() {
@@ -531,6 +537,7 @@ public class CPU {
 		GPRList.get(rx).setCurrentValue(~contentRx);
 		GPRList.get(rx).setBinaryValue (~contentRx);
 		logger.info("NOT instruction end.");
+		pc.addOne();
 	}
 	
 	public void SRC() {
@@ -551,6 +558,7 @@ public class CPU {
 		GPRList.get(register).setCurrentValue(Integer.parseInt(result, 2));
 		GPRList.get(register).setBinaryValue (Integer.parseInt(result, 2));
 		logger.info("SRC instruction end.");
+		pc.addOne();
 	}
 	
 	public void RRC() {
@@ -573,6 +581,7 @@ public class CPU {
 		GPRList.get(register).setCurrentValue(Integer.parseInt(contentRx, 2));
 		GPRList.get(register).setBinaryValue (Integer.parseInt(contentRx, 2));
 		logger.info("RRC instruction end.");
+		pc.addOne();
 	}
 	
 	//input to register from device
@@ -581,12 +590,17 @@ public class CPU {
 		int register = getRX();
 		int devid = ir.getAddrValue();
 		if(devid != 1) {
-			String value = devicesList.get(devid).getValue();
-			GPRList.get(register).setCurrentValue(Integer.parseInt(value, 2));
-			GPRList.get(register).setBinaryValue (Integer.parseInt(value, 2));
+			String value = "";
+			if(devid == 0) {
+				value = JOptionPane.showInputDialog("Please type in your input for keyboard. ");
+			}
+			GPRList.get(register).setCurrentValue(Integer.valueOf(value));
+			GPRList.get(register).setBinaryValue (Integer.valueOf(value));
 			logger.info("IN instruction end.");
+		}else {
+			logger.info("IN instruction end with no action.");
 		}
-		logger.info("IN instruction end with no action.");
+		pc.addOne();
 	}
 	
 	// to device from register 
@@ -595,11 +609,15 @@ public class CPU {
 		int register = getRX();
 		int devid = ir.getAddrValue();
 		if(devid != 0) {
-			String value = GPRList.get(register).getValue();
-			devicesList.get(devid).setValue(value);
+			int value = GPRList.get(register).getCurrentValue();
+			if(devid == 1) {
+				panel.appendToConsole(String.valueOf(value));
+			}
 			logger.info("OUT instruction end.");
+		}else {
+			logger.info("OUT instruction end with no action.");
 		}
-		logger.info("OUT instruction end with no action.");
+		pc.addOne();
 	}
 	
 	public void MLT() {
@@ -622,6 +640,7 @@ public class CPU {
 		}else {
 			logger.info("DVD instruction- rx and ry must be 0 or 2.");
 		}
+		pc.addOne();
 	}
 	
 	public String rightShift(String bitValue, int count, int ALvalue) {

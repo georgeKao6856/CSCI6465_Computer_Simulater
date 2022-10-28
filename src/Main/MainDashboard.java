@@ -48,8 +48,8 @@ public class MainDashboard {
 	private ArrayList<JRadioButton> ccButtonList = new ArrayList<JRadioButton>();
 	//private JFrame consoleLog;
 	//private ConsolePrinter consolePrint;
-	Panels panels;
-	private CPU cpu = new CPU(mem);
+	Panels panels = new Panels();
+	private CPU cpu = new CPU(mem, panels);
 	public static final Logger logger = LoggerFactory.getLogger("CSCI6465.logger");
 
 	/**
@@ -94,7 +94,6 @@ public class MainDashboard {
 		consolePrint.setLocation(frame.getSize().width/2, frame.getSize().height/2);
 		consolePrint.setVisible(false);*/
 		
-		panels = new Panels();
 		panels.setLocation(frame.getSize().width/2, frame.getSize().height/2);
 		panels.setVisible(false);
 		
@@ -970,8 +969,6 @@ public class MainDashboard {
 					.addGap(22))
 		);
 		panel_Address.setLayout(gl_panel_Address);
-		
-		
 		
 		JLabel lbl_I = new JLabel("I");
 		lbl_I.setFont(new Font("Times New Roman", Font.PLAIN, 20));
