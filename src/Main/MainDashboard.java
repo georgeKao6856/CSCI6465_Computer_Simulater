@@ -24,6 +24,7 @@ import javax.swing.WindowConstants;
 import swing.CustomButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTabbedPane;
 
 public class MainDashboard {
 
@@ -45,7 +46,9 @@ public class MainDashboard {
 	private ArrayList<JTextField> textFieldGPRList = new ArrayList<JTextField>();
 	private ArrayList<JTextField> textFieldIXRList = new ArrayList<JTextField>();
 	private ArrayList<JRadioButton> ccButtonList = new ArrayList<JRadioButton>();
-	private JFrame console;
+	//private JFrame consoleLog;
+	//private ConsolePrinter consolePrint;
+	Panels panels;
 	private CPU cpu = new CPU(mem);
 	public static final Logger logger = LoggerFactory.getLogger("CSCI6465.logger");
 
@@ -83,9 +86,17 @@ public class MainDashboard {
 		frame.setBounds(100, 100, 1206, 603);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
-		console = new Console();
-		console.setLocation(frame.getSize().width/2, frame.getSize().height/2);
-		console.setVisible(false);
+		/*consoleLog = new Console();
+		consoleLog.setLocation(frame.getSize().width/2, frame.getSize().height/2);
+		consoleLog.setVisible(false);
+		
+		consolePrint = new ConsolePrinter();
+		consolePrint.setLocation(frame.getSize().width/2, frame.getSize().height/2);
+		consolePrint.setVisible(false);*/
+		
+		panels = new Panels();
+		panels.setLocation(frame.getSize().width/2, frame.getSize().height/2);
+		panels.setVisible(false);
 		
 		logger.info("Initialize the main dashboard.");
 		
@@ -499,10 +510,10 @@ public class MainDashboard {
 		btnInit.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnInit.setBackground(Color.RED);
 		
-		JButton btnConsole = new JButton("Console");
+		JButton btnConsole = new JButton("Panels");
 		btnConsole.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				console.setVisible(true);
+				panels.setVisible(true);
 			}
 		});
 		btnConsole.setFont(new Font("Times New Roman", Font.PLAIN, 20));

@@ -76,3 +76,126 @@
 2022-10-27 17:54:24,475 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
 2022-10-27 17:54:31,197 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
 2022-10-27 17:54:35,326 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:58:45,187 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:58:58,808 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:59:46,077 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 17:59:53,549 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-27 17:59:53,556 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-27 17:59:53,566 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-27 17:59:56,225 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-27 17:59:56,779 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-27 17:59:56,782 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-27 17:59:56,786 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-27 17:59:58,204 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-27 17:59:58,784 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-27 17:59:58,786 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-27 17:59:58,789 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-27 18:00:00,383 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-27 18:01:20,517 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:01:21,476 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-27 18:01:21,481 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-27 18:01:21,491 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-27 18:01:23,078 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-27 18:01:23,596 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-27 18:01:23,599 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-27 18:01:23,602 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-27 18:01:26,004 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-27 18:01:38,258 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:03:54,224 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:08:13,952 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:13:13,156 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:13:20,019 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:13:21,631 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-27 18:13:21,640 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-27 18:17:09,843 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:19:09,149 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:19:20,558 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:20:18,735 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:20:33,676 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 18:53:50,326 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-27 19:44:37,992 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:10:27,815 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:10:37,181 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:21:53,826 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:36:09,079 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:37:46,622 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:38:01,369 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:38:04,140 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 0(000000000000) into PC.
+2022-10-28 00:38:07,993 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-10-28 00:38:08,009 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-10-28 00:38:08,016 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-10-28 00:38:09,576 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-10-28 00:38:48,761 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:39:38,606 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:40:07,177 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:41:12,868 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:55:03,279 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:59:23,128 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 00:59:53,235 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:00:29,407 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:00:44,608 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:05:22,284 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:05:44,248 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:30:57,726 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:31:03,025 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:31:03,036 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:31:03,211 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:31:03,215 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:31:03,395 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:31:03,399 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:31:03,556 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:31:03,559 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:31:03,714 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:31:03,716 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:31:03,850 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:31:03,852 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:31:20,652 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:37:31,692 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:37:42,969 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:38:03,453 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:38:06,601 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 6(000000000110) into MAR.
+2022-10-28 01:38:07,707 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 1(0000000000000001) into MBR.
+2022-10-28 01:38:11,495 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 1(0000000000000001) into cache address 6(000000000110)
+2022-10-28 01:38:11,504 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 1(0000000000000001) into memory address 6(000000000110)
+2022-10-28 01:38:19,549 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:19,552 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:19,711 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:19,713 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,081 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,084 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,213 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,215 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,343 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,345 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,474 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,476 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,605 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,607 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,737 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,739 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:20,875 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:20,877 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,007 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,009 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,146 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,148 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,293 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,295 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,432 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,434 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,577 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,578 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,717 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,719 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:21,872 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:21,874 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:22,017 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-10-28 01:38:22,019 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-10-28 01:38:47,918 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:54:02,234 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:54:08,971 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 6(000000000110) into MAR.
+2022-10-28 01:54:10,109 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 1(0000000000000001) into MBR.
+2022-10-28 01:54:11,798 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 1(0000000000000001) into cache address 6(000000000110)
+2022-10-28 01:54:11,804 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 1(0000000000000001) into memory address 6(000000000110)
+2022-10-28 01:54:37,442 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-10-28 01:59:04,456 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.

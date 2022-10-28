@@ -297,6 +297,11 @@ public class CPU {
 			IXRList.get(i).setCurrentValue(0);
 			IXRList.get(i).setBinaryValue(0);
 		}
+		
+		for(int i=0; i < CCList.size();i++) {
+			CCList.get(i).setCurrentValue(0);
+			CCList.get(i).setBinaryValue(0);
+		}
 
 		cache.clear();
 		mar.setCurrentValue(0);
@@ -559,8 +564,7 @@ public class CPU {
 			for(int i=0; i<count; i++) {
 				contentRx = contentRx.charAt(registerSize- 1) + contentRx.substring(0, registerSize - 1);
 			}
-		}
-		else {	//left shift
+		}else {	//left shift
 			for(int i=0; i<count; i++) {
 				contentRx = contentRx.substring(1) + contentRx.charAt(0);
 			}
@@ -609,15 +613,13 @@ public class CPU {
 			//set CC0 to 1
 			CCList.get(0).setCurrentValue(1);
 			logger.info("MLT instruction Overflow flag.");
-		}
-		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
+		}else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
 			GPRList.get(rx).setCurrentValue(product.divide(maxINT).intValue());
 			GPRList.get(rx).setBinaryValue (product.divide(maxINT).intValue());
 			GPRList.get(rx+1).setCurrentValue(product.mod(maxINT).intValue());
 			GPRList.get(rx+1).setBinaryValue (product.mod(maxINT).intValue());
 			logger.info("MLT instruction end.");
-		}
-		else {
+		}else {
 			logger.info("DVD instruction- rx and ry must be 0 or 2.");
 		}
 	}
@@ -626,14 +628,12 @@ public class CPU {
 		char sign;
 		if (ALvalue == 0) {
 			sign = bitValue.charAt(0);
-		}
-		else {
+		}else {
 			sign = '0';
 		}
         for (int i = 0; i < count; i++) {
         	bitValue = sign + bitValue.substring(0, gpr0.getsizeofRegister() - 1);
         }
-
         return bitValue;
 	}
 	
@@ -641,7 +641,6 @@ public class CPU {
 		for (int i = 0; i < count; i++) {
         	bitValue = bitValue.substring(1, gpr0.getsizeofRegister()) + "0";
         }
-
         return bitValue;
 	}
 	

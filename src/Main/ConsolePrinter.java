@@ -15,10 +15,10 @@ import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-public class Console extends JFrame {
+public class ConsolePrinter extends JFrame {
 
 	private JPanel contentPane;
-	private PrintStream standardOut;
+	JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -27,7 +27,7 @@ public class Console extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Console frame = new Console();
+					ConsolePrinter frame = new ConsolePrinter();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,10 +39,10 @@ public class Console extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Console() {
+	public ConsolePrinter() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 847, 455);
-		setTitle("Log");
+		setTitle("Console Printer");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -52,14 +52,9 @@ public class Console extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		
-		JTextArea textAreaLog = new JTextArea();
-		textAreaLog.setEditable(false);
-		scrollPane.setViewportView(textAreaLog);
-		
-		PrintStream printStream = new PrintStream(new CustomOutputStream(textAreaLog));
-		standardOut = System.out;
-		System.setOut(printStream);
-        System.setErr(printStream);
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		scrollPane.setViewportView(textArea);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -72,5 +67,9 @@ public class Console extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	public JTextArea getTextArea() {
+		return textArea;
+	} 
 
 }
