@@ -26,7 +26,7 @@ public class Cache {
 	}
 	
 	public int getElement(int addr) {
-		try { //First run will have Nullpoint exception error, so use try catch to avoid.
+		try { //First run will have NullPoint exception error, so use try catch to avoid.
 			for(int i=0; i < LCache.size();i++) {
 				if(LCache.get(i).getAddress() == addr) {
 					logger.info("Cache hit!");

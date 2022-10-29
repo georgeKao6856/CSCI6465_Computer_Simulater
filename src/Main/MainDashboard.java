@@ -427,6 +427,11 @@ public class MainDashboard {
 		JPanel panel_Address = new JPanel();
 		panel_Address.setBackground(SystemColor.activeCaption);
 		
+		CustomButton btnRunStatus = new CustomButton();
+		btnRunStatus.setEnabled(false);
+		btnRunStatus.setRadius(50);
+		btnRunStatus.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		
 		JButton btnStorePlus = new JButton("S+");
 		//Store current MBR value to the current MAR address, and increase one to the MAR address.
 		btnStorePlus.addActionListener(new ActionListener() {
@@ -443,6 +448,7 @@ public class MainDashboard {
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnHaltStatus.setBackground(Color.WHITE);
+				btnRunStatus.setBackground(new Color(0,255,0));
 				cpu.Run();
 				textFieldMAR.setText(cpu.getBinaryMAR());
 				textFieldMBR.setText(cpu.getBinaryMBR());
@@ -455,6 +461,7 @@ public class MainDashboard {
 					}
 				}
 				btnHaltStatus.setBackground(new Color(0,255,0));
+				btnRunStatus.setBackground(Color.WHITE);
 			}
 		});
 		btnRun.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -478,11 +485,6 @@ public class MainDashboard {
 			}
 		});
 		btnSS.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		
-		CustomButton btnRunStatus = new CustomButton();
-		btnRunStatus.setEnabled(false);
-		btnRunStatus.setRadius(50);
-		btnRunStatus.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		JLabel lblHalt = new JLabel("Halt");
 		lblHalt.setFont(new Font("Times New Roman", Font.PLAIN, 20));

@@ -57,6 +57,8 @@ public class CPU {
 		decoder.put(11, () -> JNE()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
 		decoder.put(20, () -> MLT()); decoder.put(21, () -> DVD()); decoder.put(22, () -> TRR()); decoder.put(23, () -> AND()); decoder.put(24, () -> ORR());
 		decoder.put(25, () -> NOT()); decoder.put(31, () -> SRC()); decoder.put(32, () -> RRC()); decoder.put(61, () -> IN()); decoder.put(62, () -> OUT());
+		decoder.put(14, () -> JSR()); decoder.put(15, () -> RFSImmed()); decoder.put(16, () -> SOB()); decoder.put(17, () -> JGE()); decoder.put(04, () -> AMR()); 
+        decoder.put(05, () -> SMR()); decoder.put(06, () -> AIR()); decoder.put(07, () -> SIR());
 	}
 	
 	public void setMAR(int address) {
@@ -532,11 +534,20 @@ public class CPU {
 	
 	public void NOT() {
 		logger.info("NOT instruction start.");
-		int rx = getRX();
-		int contentRx = GPRList.get(rx).getCurrentValue();
-		GPRList.get(rx).setCurrentValue(~contentRx);
-		GPRList.get(rx).setBinaryValue (~contentRx);
-		logger.info("NOT instruction end.");
+        int rx = getRX();
+        String contentRx = GPRList.get(rx).getValue();
+        String notofContent = "";
+        for(int i = 0; i<contentRx.length();i++) {
+            if(contentRx.charAt(i)== '0') {
+                notofContent = notofContent + "1";
+            }
+            else {
+                notofContent = notofContent + "0";
+            }
+        }
+        GPRList.get(rx).setBinaryValue(Integer.parseInt(notofContent,2));
+        GPRList.get(rx).setCurrentValue(Integer.parseInt(notofContent,2));
+        logger.info("NOT instruction end.");
 		pc.addOne();
 	}
 	
@@ -669,5 +680,126 @@ public class CPU {
 	
 	public int getRY() {
 		return ir.getIXRValue();
+	}
+	
+	public void AIR() {
+        logger.info("AIR instruction start.");
+        getEA();
+        int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+        int immed=ir.getAddrValue();
+        if(immed!=0) {
+            if(GPRvalue + immed > 32767) {
+                CCList.get(0).setCurrentValue(1);
+                logger.info("Addition instruction Overflow flag.");
+            }
+            else
+                GPRList.get(ir.getGPRValue()).setCurrentValue(GPRvalue+immed);
+                GPRList.get(ir.getGPRValue()).setBinaryValue(GPRvalue+immed);
+        }
+        logger.info("AIR instruction end.");
+        pc.addOne();
+    }
+	
+    public void SIR() {
+        logger.info("SIR instruction start.");
+        getEA();
+        int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+        int immed=ir.getAddrValue();
+        if(immed!=0) {
+            if(GPRvalue - immed < -32768) {
+                CCList.get(1).setCurrentValue(1);
+                logger.info("Subtraction instruction Underflow flag.");
+            }else {
+                GPRList.get(ir.getGPRValue()).setCurrentValue(GPRvalue-immed);
+            }
+            GPRList.get(ir.getGPRValue()).setCurrentValue(GPRvalue-immed);
+            GPRList.get(ir.getGPRValue()).setBinaryValue(GPRvalue-immed);
+        }
+        logger.info("SIR instruction end.");
+        pc.addOne();
+    }
+    
+    public void JSR() {
+		logger.info("JSR instruction start.");
+		getEA();
+		gpr3.setBinaryValue(getIntPC()+1);
+		pc.setCurrentValue(mar.getCurrentValue());
+		pc.setBinaryValue(mar.getCurrentValue());
+		logger.info(" JSR instruction end.");
+	}
+    
+	public void RFSImmed() {
+		logger.info("RFSImmed instruction start.");
+		getEA();
+		setGPR0(ir.getAddrValue());
+		setPC(getIntGPR3());
+		logger.info(" RFSImmed instruction end.");
+	}
+	
+	public void SOB() {
+		logger.info("SOB instruction start.");
+		getEA();
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		GPRList.get(ir.getGPRValue()).setCurrentValue(GPRvalue-1);
+		GPRList.get(ir.getGPRValue()).setBinaryValue(GPRvalue-1);
+		if(GPRvalue-1 > 0) {
+			getEA();
+			pc.setCurrentValue(mar.getCurrentValue());
+			pc.setBinaryValue(mar.getCurrentValue());
+		}else {
+			pc.addOne();
+		}
+		logger.info("SOB instruction end.");
+	}
+	
+	public void JGE() {
+		logger.info("JGE instruction start.");
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		if(GPRvalue >= 0) {
+			getEA();
+			pc.setCurrentValue(mar.getCurrentValue());
+			pc.setBinaryValue(mar.getCurrentValue());
+		}
+		else {
+			pc.addOne();
+		}
+		
+		logger.info("JGE instruction end.");
+	}
+	
+	public void SMR() {
+		logger.info("SMR instruction start.");
+		getEA();
+		Fetch();
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		int x= GPRvalue - (mbr.getCurrentValue());
+		if(x < -32768) {
+			CCList.get(1).setCurrentValue(1);
+			logger.info("Subtraction instruction Underflow flag.");
+		}
+		else {
+			GPRList.get(ir.getGPRValue()).setCurrentValue(x);
+			GPRList.get(ir.getGPRValue()).setBinaryValue(x);
+		}
+		pc.addOne();
+		logger.info("SMR instruction end.");
+	}
+	
+	public void AMR() {
+		logger.info("AMR instruction start.");
+		getEA();
+		Fetch();
+		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+		int x= GPRvalue +(mbr.getCurrentValue());
+		if(x>32767) {
+			CCList.get(0).setCurrentValue(1);
+			logger.info("Addition instruction Overflow flag.");
+		}
+		else {
+			GPRList.get(ir.getGPRValue()).setCurrentValue(x);
+			GPRList.get(ir.getGPRValue()).setBinaryValue(x);
+		}
+		pc.addOne();
+		logger.info("AMR instruction end.");
 	}
 }
