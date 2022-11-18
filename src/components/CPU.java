@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import Main.Keyboard;
-import Main.Keyboard2;
 import Main.Panels;
 
 public class CPU {
@@ -43,6 +41,7 @@ public class CPU {
 	private ConditionCode cc3 = new ConditionCode(3); //EqualorNot
 	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
+	private MemoryFaultRegister mfr = new MemoryFaultRegister(0);
 	public static String keyboardInput;
 	Panels panel;
 	
@@ -85,6 +84,19 @@ public class CPU {
 	
 	public int getIntMBR() {
 		return mbr.getCurrentValue();
+	}
+	
+	public void setMFR(int value) {
+		mfr.setCurrentValue(value);
+		mfr.setBinaryValue(value);
+	}
+	
+	public String getBinaryMFR() {
+		return mfr.getValue();
+	}
+	
+	public int getIntMFR() {
+		return mfr.getCurrentValue();
 	}
 	
 	public void setPC(int value) {
@@ -210,16 +222,25 @@ public class CPU {
 	
 	public void Store() {
 		if(mar.getCurrentValue() >= mem.getMaxLength()) {
-			mem.expandMemory();
-			logger.info("Memory expand to 4096 words.");
-		}
-		if(mar.getCurrentValue() >= mem.getMaxLength() || mbr.getCurrentValue() >= 65536) {
-			logger.error("Invaild: Memory[" +  mar.getCurrentValue() + "(" + mar.getValue() + ")" + "]=>" + mbr.getCurrentValue() + "(" + mbr.getValue() + ")");
+			//mem.expandMemory();
+			//logger.info("Memory expand to 4096 words.");
+			mfr.setBinaryValue(8);  //Illegal Memory Address beyond 2048
+			mfr.setCurrentValue(8);
 		}else {
-			cache.addElement(mar.getCurrentValue(), mbr.getCurrentValue());
-			logger.info("Store {}({}) into cache address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
-			mem.set(mar.getCurrentValue(), mbr.getCurrentValue());
-			logger.info("Store {}({}) into memory address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+			if(mar.getCurrentValue()<=5 && mar.getCurrentValue()>=0) {
+				mfr.setCurrentValue(1); //Illegal Memory Address to Reserved Locations
+				mfr.setBinaryValue(1);
+				logger.error("Cannot store value to the reserved locations.");
+			}else {
+				if(mar.getCurrentValue() >= mem.getMaxLength() || mbr.getCurrentValue() >= 65536) {
+					logger.error("Invaild: Memory[" +  mar.getCurrentValue() + "(" + mar.getValue() + ")" + "]=>" + mbr.getCurrentValue() + "(" + mbr.getValue() + ")");
+				}else { 
+					cache.addElement(mar.getCurrentValue(), mbr.getCurrentValue());
+					logger.info("Store {}({}) into cache address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+					mem.set(mar.getCurrentValue(), mbr.getCurrentValue());
+					logger.info("Store {}({}) into memory address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+				}
+			}
 		}
 	}
 	
@@ -270,6 +291,8 @@ public class CPU {
 		try {
 			decoder.get(ir.getOperation()).run(); //Decode instruction and execute it.
 		}catch(Exception e) {
+			mfr.setCurrentValue(4); //Illegal Operation Code
+			mfr.setBinaryValue(4);
 			logger.error("There is no " + ir.getOperation() + " operation.");
 		}
 		logger.info("Sinlge Run end.");
@@ -285,6 +308,8 @@ public class CPU {
 			}
 			decoder.get(ir.getOperation()).run(); //Execute Halt instruction.
 		}catch(Exception e) {
+			mfr.setCurrentValue(4); //Illegal Operation Code
+			mfr.setBinaryValue(4);
 			logger.error("There is no " + ir.getOperation() + " operation.");
 		}
 		logger.info("Run end.");
@@ -312,6 +337,8 @@ public class CPU {
 		mar.setBinaryValue(0);
 		mbr.setCurrentValue(0);
 		mbr.setBinaryValue(0);
+		mfr.setCurrentValue(0);
+		mfr.setBinaryValue(0);
 		pc.setCurrentValue(0);
 		pc.setBinaryValue(0);
 		ir.setCurrentValue(0);

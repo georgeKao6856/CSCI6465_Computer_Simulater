@@ -3,7 +3,6 @@ import java.util.BitSet;
 import java.util.stream.IntStream;
 
 
-
 public abstract class Register extends BitSet {
 	private int currentValue;
 	private int sizeofRegister;
@@ -35,7 +34,8 @@ public abstract class Register extends BitSet {
 	public void setBinaryValue(int value) {
 		this.clear();
 		//String bits = Integer.toBinaryString(binaryValue);
-		if (value < Math.pow(2, sizeofRegister) && value >= 0){
+		//if (value < Math.pow(2, sizeofRegister) && value >= 0){
+		if (value < Math.pow(2, sizeofRegister) ){ //allow negative number
 			//BitSet bitSet = BitSet.valueOf(new long[] { value });
 			int index = sizeofRegister-1;
 	        while (value != 0 && index>=0) {

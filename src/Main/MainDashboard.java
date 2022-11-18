@@ -452,6 +452,7 @@ public class MainDashboard {
 				cpu.Run();
 				textFieldMAR.setText(cpu.getBinaryMAR());
 				textFieldMBR.setText(cpu.getBinaryMBR());
+				textFieldMFR.setText(cpu.getBinaryMFR());
 				textFieldPC.setText(cpu.getBinaryPC());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
@@ -475,6 +476,7 @@ public class MainDashboard {
 				textFieldMAR.setText(cpu.getBinaryMAR());
 				textFieldMBR.setText(cpu.getBinaryMBR());
 				textFieldPC.setText(cpu.getBinaryPC());
+				textFieldMFR.setText(cpu.getBinaryMFR());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
 				for(int i=0; i < ccButtonList.size(); i++) {
