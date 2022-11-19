@@ -42,6 +42,7 @@ public class CPU {
 	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
 	private MemoryFaultRegister mfr = new MemoryFaultRegister(0);
+	private ArrayList<Integer> asciiValue = new ArrayList<Integer>();
 	public static String keyboardInput;
 	Panels panel;
 	
@@ -57,7 +58,7 @@ public class CPU {
 		decoder.put(20, () -> MLT()); decoder.put(21, () -> DVD()); decoder.put(22, () -> TRR()); decoder.put(23, () -> AND()); decoder.put(24, () -> ORR());
 		decoder.put(25, () -> NOT()); decoder.put(31, () -> SRC()); decoder.put(32, () -> RRC()); decoder.put(61, () -> IN()); decoder.put(62, () -> OUT());
 		decoder.put(14, () -> JSR()); decoder.put(15, () -> RFSImmed()); decoder.put(16, () -> SOB()); decoder.put(17, () -> JGE()); decoder.put(04, () -> AMR()); 
-        decoder.put(05, () -> SMR()); decoder.put(06, () -> AIR()); decoder.put(07, () -> SIR());
+        decoder.put(05, () -> SMR()); decoder.put(06, () -> AIR()); decoder.put(07, () -> SIR()); decoder.put(63, () -> CHK()); decoder.put(30, () -> TRAP());
 	}
 	
 	public void setMAR(int address) {
@@ -408,13 +409,30 @@ public class CPU {
 	
 	public void STR() {
 		logger.info("STR instruction start.");
-		getEA();
-		int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
-		mbr.setBinaryValue(GPRvalue);
-		mbr.setCurrentValue(GPRvalue);
-		Store();
-		pc.addOne();
-		logger.info("STR instruction end.");
+        if(GPRList.get(ir.getGPRValue()).getdeviceStringInput() == 0) {
+            getEA();
+            int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+            mbr.setBinaryValue(GPRvalue);
+            mbr.setCurrentValue(GPRvalue);
+            Store();
+        }
+        else {
+            int EA = returnEA();
+            int value;
+            ArrayList<Integer> asciiValue = GPRList.get(ir.getGPRValue()).getasciiValue();
+            for(int i =0; i<asciiValue.size(); i++) {
+                value = asciiValue.get(i);
+                mar.setBinaryValue(EA);
+                mar.setCurrentValue(EA);
+                mbr.setBinaryValue(value);
+                mbr.setCurrentValue(value);
+                Store();
+                EA += 1;
+            }
+            GPRList.get(ir.getGPRValue()).setdeviceStringInput(0);
+        }
+        pc.addOne();
+        logger.info("STR instruction end.");
 	}
 	
 	public void LDX() {
@@ -528,8 +546,7 @@ public class CPU {
 		if(contentRx == contentRy) {
 			//cc3 = 1
 			CCList.get(3).setCurrentValue(1);
-		}
-		else {
+		}else {
 			//cc3 = 0
 			CCList.get(3).setCurrentValue(0);
 		}
@@ -625,38 +642,51 @@ public class CPU {
 	//input to register from device
 	public void IN() {
 		logger.info("IN instruction start.");
-		int register = getRX();
-		int devid = ir.getAddrValue();
-		if(devid != 1) {
-			String value = "";
-			if(devid == 0) {
-				value = JOptionPane.showInputDialog("Please type in your input for keyboard. ");
-			}
-			GPRList.get(register).setCurrentValue(Integer.valueOf(value));
-			GPRList.get(register).setBinaryValue (Integer.valueOf(value));
-			logger.info("IN instruction end.");
-		}else {
-			logger.info("IN instruction end with no action.");
-		}
-		pc.addOne();
+        int register = getRX();
+        int devid = ir.getAddrValue();
+        if(devid != 1) {
+            String value = "";
+            if(devid == 0) {
+                value = JOptionPane.showInputDialog("Please type in your input for keyboard. ");
+            }
+            if(value.matches("\\d+")) { //checks if input has only numbers
+                GPRList.get(register).setCurrentValue(Integer.valueOf(value));
+                GPRList.get(register).setBinaryValue (Integer.valueOf(value));
+            }
+            else {
+                GPRList.get(register).setdeviceStringInput(1);
+                asciiValue.clear();
+                for (int i= 0; i<value.length(); i++) {
+                    asciiValue.add(Integer.valueOf(value.charAt(i)));
+                }
+                GPRList.get(register).setasciiValue(asciiValue);
+                GPRList.get(register).setCurrentValue(Integer.valueOf(value.charAt(0)));
+                GPRList.get(register).setBinaryValue (Integer.valueOf(value.charAt(0)));
+            }
+
+            logger.info("IN instruction end.");
+        }else {
+            logger.info("IN instruction end with no action.");
+        }
+        pc.addOne();
 	}
 	
 	// to device from register 
 	public void OUT() {
-		logger.info("IN instruction start.");
-		int register = getRX();
-		int devid = ir.getAddrValue();
-		if(devid != 0) {
-			int value = GPRList.get(register).getCurrentValue();
-			if(devid == 1) {
-				panel.appendToConsole(String.valueOf(value));
-			}
-			logger.info("OUT instruction end.");
-		}else {
-			logger.info("OUT instruction end with no action.");
-		}
-		pc.addOne();
-	}
+        logger.info("IN instruction start.");
+        int register = getRX();
+        int devid = ir.getAddrValue();
+        if(devid != 0) {
+            int value = GPRList.get(register).getCurrentValue();
+            if(devid == 1) {
+                panel.appendToConsole(Character.toString((char)value));
+            }
+            logger.info("OUT instruction end.");
+        }else {
+            logger.info("OUT instruction end with no action.");
+        }
+        pc.addOne();
+    }
 	
 	public void MLT() {
 		logger.info("MLT instruction start.");
@@ -829,4 +859,56 @@ public class CPU {
 		pc.addOne();
 		logger.info("AMR instruction end.");
 	}
+	
+	public int returnEA() {
+        int IXRvalue = IXRList.get(ir.getIXRValue()).getCurrentValue();
+        int addvalue = IXRvalue + ir.getAddrValue();
+        if(ir.getIndirectValue() != 0) {    //Indirect Addressing Mode
+            int indirect = mem.get(addvalue);
+            return (indirect);
+        }else {   //Direct Addressing mode
+            return(addvalue);
+        }
+    }
+	
+	public void CHK() {
+        logger.info("CHK instruction start.");
+        int register = getRX();
+        int devid = ir.getAddrValue();
+        if (devid == 0) {
+            // Check Status of the Keyboard.
+            GPRList.get(register).setCurrentValue(1);
+            GPRList.get(register).setBinaryValue (1);
+        } else if (devid == 1) {
+            // Check Status of the Console Printer.
+            GPRList.get(register).setCurrentValue(1);
+            GPRList.get(register).setBinaryValue (1);
+        } else if (devid == 2) {
+            // Check Status of the Card Reader.
+            GPRList.get(register).setCurrentValue(1);
+            GPRList.get(register).setBinaryValue (1);
+        } else if (devid > 2 && devid < 32) {
+            GPRList.get(register).setCurrentValue(1);
+            GPRList.get(register).setBinaryValue (1);
+        } else {
+            logger.info("Invalid- DEVID>32");
+        }
+        pc.addOne();
+        logger.info("CHK instruction end.");
+    }
+	
+	public void TRAP() {
+        logger.info("TRAP instruction start.");
+        int TrapCode = ir.getTrapCodeValue();
+        if(TrapCode>15 || TrapCode<0) {
+        	mfr.setCurrentValue(2);  //Illegal TRAP code
+        	mfr.setBinaryValue(2);
+        }
+        // Storing the PC+1 in memory location 2
+        mem.set(2, getIntPC()+1);
+        pc.setCurrentValue(mem.get(0)+ TrapCode);
+        pc.setBinaryValue(mem.get(0)+ TrapCode);
+        logger.info("TRAP instruction end.");
+
+    }
 }

@@ -56,4 +56,10 @@ public class InstructionRegister extends Register  {
 		int value = Integer.parseInt(lrValue);
 		return value;
 	}
+	
+	public int getTrapCodeValue() {
+        String trap = getValue().substring(12);
+        int value = Integer.parseInt(trap,2);
+        return value;
+    }
 }

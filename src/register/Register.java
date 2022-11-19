@@ -1,4 +1,5 @@
 package register;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.stream.IntStream;
 
@@ -9,9 +10,13 @@ public abstract class Register extends BitSet {
 	private int registerNumber;
 	private String registerType;
 	
+	private int deviceStringInput;
+    private ArrayList<Integer> asciiValue = new ArrayList<Integer>();
+	
 	public Register() {
 		super(16);
 		sizeofRegister = 16;
+		deviceStringInput = 0;
 	}
 	
 	public Register(RegisterType x) {
@@ -72,4 +77,19 @@ public abstract class Register extends BitSet {
 		this.currentValue = value;
 	}
 	
+	public int getdeviceStringInput() {
+        return deviceStringInput;
+    }
+	
+    public void setdeviceStringInput(int num) {
+        deviceStringInput = num; 
+    }
+    
+    public ArrayList<Integer> getasciiValue(){
+        return asciiValue;
+    }
+    
+    public void setasciiValue(ArrayList<Integer> asciiValue){
+        this.asciiValue = asciiValue;
+    }
 }

@@ -117,7 +117,7 @@ public class Panels extends JFrame {
 	}
 	
 	public void appendToConsole(String input) {
-		textAreaConsole.append(input + "\n");
+		textAreaConsole.append(input);
 	}
 
 }
