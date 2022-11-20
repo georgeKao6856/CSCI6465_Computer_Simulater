@@ -913,18 +913,18 @@ public class CPU {
     }
 	
 	public void TRAP() {
-		logger.info("TRAP instruction start.");
+        logger.info("TRAP instruction start.");
         int TrapCode = ir.getTrapCodeValue();
-        if(TrapCode>15 || TrapCode<0) {
-        	mfr.setCurrentValue(2);  //Illegal TRAP code
-        	mfr.setBinaryValue(2);
-        	mfr.setID(1);
-        }
+        System.out.println("Value is"+ TrapCode);
         // Storing the PC+1 in memory location 2
         mem.set(2, getIntPC()+1);
         pc.setCurrentValue(mem.get(0)+ TrapCode);
+        if((mem.get(0)+ TrapCode == 0) ||  TrapCode>15 || TrapCode<0) {
+            mfr.setCurrentValue(2);  //Illegal TRAP code
+            mfr.setBinaryValue(2);
+            mfr.setID(1);
+        }
         pc.setBinaryValue(mem.get(0)+ TrapCode);
         logger.info("TRAP instruction end.");
-
     }
 }
