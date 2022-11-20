@@ -375,6 +375,7 @@ public class MainDashboard {
 			public void actionPerformed(ActionEvent e) {
 				cpu.Store();
 				resetBackGround();
+				textFieldMFR.setText(cpu.getBinaryMFR());
 			}
 		});
 		btnStore.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -386,6 +387,7 @@ public class MainDashboard {
 				cpu.Fetch();
 				textFieldMBR.setText(cpu.getBinaryMBR());
 				resetBackGround();
+				textFieldMFR.setText(cpu.getBinaryMFR());
 			}
 		});
 		btnLoad.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -503,15 +505,16 @@ public class MainDashboard {
 				textFieldMBR.setText(cpu.getBinaryMBR());
 				textFieldPC.setText(cpu.getBinaryPC());
 				textFieldIR.setText(cpu.getBinaryIR());
+				textFieldMFR.setText(cpu.getBinaryMFR());
 				updateTextFieldGPRList();
 				updateTextFieldIXRList();
-				cpu.ReadFile();
-				textFieldMAR.setText(cpu.getBinaryMAR());
-				textFieldMBR.setText(cpu.getBinaryMBR());
 				rdbtnCC0.setSelected(false);
 				rdbtnCC1.setSelected(false);
 				rdbtnCC2.setSelected(false);
 				rdbtnCC3.setSelected(false);
+				cpu.ReadFile();
+				textFieldMAR.setText(cpu.getBinaryMAR());
+				textFieldMBR.setText(cpu.getBinaryMBR());
 			}
 		});
 		btnInit.setFont(new Font("Times New Roman", Font.PLAIN, 20));

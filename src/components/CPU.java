@@ -222,25 +222,28 @@ public class CPU {
 	}
 	
 	public void Store() {
-		if(mar.getCurrentValue() >= mem.getMaxLength()) {
+		//if(mar.getCurrentValue() >= mem.getMaxLength()) {
 			//mem.expandMemory();
 			//logger.info("Memory expand to 4096 words.");
-			mfr.setBinaryValue(8);  //Illegal Memory Address beyond 2048
-			mfr.setCurrentValue(8);
+		//}
+		
+		if(mar.getCurrentValue()<=5 && mar.getCurrentValue()>=0) {
+			mfr.setCurrentValue(1); //Illegal Memory Address to Reserved Locations
+			mfr.setBinaryValue(1);
+			mfr.setID(0);
+			logger.error("Cannot store value to the reserved locations.");
 		}else {
-			if(mar.getCurrentValue()<=5 && mar.getCurrentValue()>=0) {
-				mfr.setCurrentValue(1); //Illegal Memory Address to Reserved Locations
-				mfr.setBinaryValue(1);
-				logger.error("Cannot store value to the reserved locations.");
-			}else {
-				if(mar.getCurrentValue() >= mem.getMaxLength() || mbr.getCurrentValue() >= 65536) {
-					logger.error("Invaild: Memory[" +  mar.getCurrentValue() + "(" + mar.getValue() + ")" + "]=>" + mbr.getCurrentValue() + "(" + mbr.getValue() + ")");
-				}else { 
-					cache.addElement(mar.getCurrentValue(), mbr.getCurrentValue());
-					logger.info("Store {}({}) into cache address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
-					mem.set(mar.getCurrentValue(), mbr.getCurrentValue());
-					logger.info("Store {}({}) into memory address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
-				}
+			if(mar.getCurrentValue() >= mem.getMaxLength() || mbr.getCurrentValue() >= 65536) {
+				mfr.setBinaryValue(8);  //Illegal Memory Address beyond 2048
+				mfr.setCurrentValue(8);
+				mfr.setID(3);
+				logger.error("Memory space is not enoughm, please install new RAM.");
+				logger.error("Invaild: Memory[" +  mar.getCurrentValue() + "(" + mar.getValue() + ")" + "]=>" + mbr.getCurrentValue() + "(" + mbr.getValue() + ")");
+			}else { 
+				cache.addElement(mar.getCurrentValue(), mbr.getCurrentValue());
+				logger.info("Store {}({}) into cache address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+				mem.set(mar.getCurrentValue(), mbr.getCurrentValue());
+				logger.info("Store {}({}) into memory address {}({})", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
 			}
 		}
 	}
@@ -251,18 +254,25 @@ public class CPU {
 	}
 	
 	public void Fetch() {
-		boolean control = true;
-		int mbrcurrent = cache.getElement(mar.getCurrentValue());
-		if(mbrcurrent == 0) {
-			control = false;
-			mbrcurrent = mem.get(mar.getCurrentValue());
-		}
-		mbr.setCurrentValue(mbrcurrent);
-		mbr.setBinaryValue(mbrcurrent);
-		if(control) {
-			logger.info("Load {}({}) from cache address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+		if(mar.getCurrentValue() >= mem.getMaxLength()) {
+			mfr.setCurrentValue(8); //Illegal Memory Address beyond 2048
+			mfr.setBinaryValue(8);
+			mfr.setID(3);
+			logger.error("Illegal memory address");
 		}else {
-			logger.info("Load {}({}) from memory address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+			boolean control = true;
+			int mbrcurrent = cache.getElement(mar.getCurrentValue());
+			if(mbrcurrent == 0) {
+				control = false;
+				mbrcurrent = mem.get(mar.getCurrentValue());
+			}
+			mbr.setCurrentValue(mbrcurrent);
+			mbr.setBinaryValue(mbrcurrent);
+			if(control) {
+				logger.info("Load {}({}) from cache address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+			}else {
+				logger.info("Load {}({}) from memory address {}({}).", mbr.getCurrentValue(), mbr.getValue(), mar.getCurrentValue(), mar.getValue());
+			}
 		}
 	}
 	
@@ -294,6 +304,7 @@ public class CPU {
 		}catch(Exception e) {
 			mfr.setCurrentValue(4); //Illegal Operation Code
 			mfr.setBinaryValue(4);
+			mfr.setID(2);
 			logger.error("There is no " + ir.getOperation() + " operation.");
 		}
 		logger.info("Sinlge Run end.");
@@ -311,6 +322,7 @@ public class CPU {
 		}catch(Exception e) {
 			mfr.setCurrentValue(4); //Illegal Operation Code
 			mfr.setBinaryValue(4);
+			mfr.setID(2);
 			logger.error("There is no " + ir.getOperation() + " operation.");
 		}
 		logger.info("Run end.");
@@ -906,6 +918,7 @@ public class CPU {
         if(TrapCode>15 || TrapCode<0) {
         	mfr.setCurrentValue(2);  //Illegal TRAP code
         	mfr.setBinaryValue(2);
+        	mfr.setID(1);
         }
         // Storing the PC+1 in memory location 2
         mem.set(2, getIntPC()+1);
