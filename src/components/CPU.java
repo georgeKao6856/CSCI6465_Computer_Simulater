@@ -487,8 +487,6 @@ public class CPU {
 		logger.info("JCC instruction start.");
 		getEA();
 		int ccValue = ir.getGPRValue();
-		CCList.get(ccValue).setCurrentValue(1);
-		CCList.get(ccValue).setBinaryValue(1);
 		if(CCList.get(ccValue).getCurrentValue() == 1) {
 			pc.setCurrentValue(mar.getCurrentValue());
 			pc.setBinaryValue(mar.getCurrentValue());
@@ -679,7 +677,12 @@ public class CPU {
         if(devid != 0) {
             int value = GPRList.get(register).getCurrentValue();
             if(devid == 1) {
-                panel.appendToConsole(Character.toString((char)value));
+                if(value<10) {
+                    panel.appendToConsole(String.valueOf(value));
+                }
+                else {
+                    panel.appendToConsole(Character.toString((char)value));
+                }
             }
             logger.info("OUT instruction end.");
         }else {
@@ -898,7 +901,7 @@ public class CPU {
     }
 	
 	public void TRAP() {
-        logger.info("TRAP instruction start.");
+		logger.info("TRAP instruction start.");
         int TrapCode = ir.getTrapCodeValue();
         if(TrapCode>15 || TrapCode<0) {
         	mfr.setCurrentValue(2);  //Illegal TRAP code

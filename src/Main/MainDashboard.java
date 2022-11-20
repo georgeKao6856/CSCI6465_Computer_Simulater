@@ -508,6 +508,10 @@ public class MainDashboard {
 				cpu.ReadFile();
 				textFieldMAR.setText(cpu.getBinaryMAR());
 				textFieldMBR.setText(cpu.getBinaryMBR());
+				rdbtnCC0.setSelected(false);
+				rdbtnCC1.setSelected(false);
+				rdbtnCC2.setSelected(false);
+				rdbtnCC3.setSelected(false);
 			}
 		});
 		btnInit.setFont(new Font("Times New Roman", Font.PLAIN, 20));
