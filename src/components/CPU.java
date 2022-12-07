@@ -39,7 +39,10 @@ public class CPU {
 	private ConditionCode cc1 = new ConditionCode(1); //Underflow
 	private ConditionCode cc2 = new ConditionCode(2); //DivZero
 	private ConditionCode cc3 = new ConditionCode(3); //EqualorNot
-	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();	
+	private ArrayList<ConditionCode> CCList = new ArrayList<ConditionCode>();
+	private FloatingPointRegister fr0 = new FloatingPointRegister(0);
+	private FloatingPointRegister fr1 = new FloatingPointRegister(1);
+	private ArrayList<FloatingPointRegister> FRList = new ArrayList<FloatingPointRegister>();
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
 	private MemoryFaultRegister mfr = new MemoryFaultRegister(0);
 	private ArrayList<Integer> asciiValue = new ArrayList<Integer>();
@@ -52,6 +55,7 @@ public class CPU {
 		GPRList.add(gpr0); GPRList.add(gpr1); GPRList.add(gpr2); GPRList.add(gpr3);
 		IXRList.add(ixr0); IXRList.add(ixr1); IXRList.add(ixr2); IXRList.add(ixr3);
 		CCList.add(cc0); CCList.add(cc1); CCList.add(cc2); CCList.add(cc3);
+		FRList.add(fr0); FRList.add(fr1);
 		//decode opcode
 		decoder.put(0, () -> HLT()); decoder.put(1, () -> LDR()); decoder.put(2, () -> STR());  decoder.put(3, () -> LDA()); decoder.put(10, () -> JZ());
 		decoder.put(11, () -> JNE()); decoder.put(12, () -> JCC()); decoder.put(13, () -> JMA()); decoder.put(41, () -> LDX()); decoder.put(42, () -> STX());
