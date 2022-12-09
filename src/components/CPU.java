@@ -130,6 +130,32 @@ public class CPU {
 		return ixr1.getCurrentValue();
 	}
 	
+	public void setFR0(int value) {
+		fr0.setCurrentValue(value);
+		fr0.setBinaryValue(value);
+	}
+	
+	public String getBinaryFR0() {
+		return fr0.getValue();
+	}
+	
+	public int getIntFR0() {
+		return fr0.getCurrentValue();
+	}
+	
+	public void setFR1(int value) {
+		fr1.setCurrentValue(value);
+		fr1.setBinaryValue(value);
+	}
+	
+	public String getBinaryFR1() {
+		return fr1.getValue();
+	}
+	
+	public int getIntFR1() {
+		return fr1.getCurrentValue();
+	}
+	
 	public void setIXR2(int value) {
 		ixr2.setCurrentValue(value);
 		ixr2.setBinaryValue(value);
@@ -350,16 +376,13 @@ public class CPU {
 		}
 
 		cache.clear();
-		mar.setCurrentValue(0);
-		mar.setBinaryValue(0);
-		mbr.setCurrentValue(0);
-		mbr.setBinaryValue(0);
-		mfr.setCurrentValue(0);
-		mfr.setBinaryValue(0);
-		pc.setCurrentValue(0);
-		pc.setBinaryValue(0);
-		ir.setCurrentValue(0);
-		ir.setBinaryValue(0);
+		fr0.setCurrentValue(0); fr0.setBinaryValue(0);
+		fr1.setCurrentValue(0); fr1.setBinaryValue(0);
+		mar.setCurrentValue(0); mar.setBinaryValue(0);
+		mbr.setCurrentValue(0); mbr.setBinaryValue(0);
+		mfr.setCurrentValue(0); mfr.setBinaryValue(0);
+		pc.setCurrentValue(0); pc.setBinaryValue(0);
+		ir.setCurrentValue(0); ir.setBinaryValue(0);
 		mem.clear();
 		logger.info("Init end.");
 	}

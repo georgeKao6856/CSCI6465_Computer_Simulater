@@ -28164,3 +28164,20 @@
 2022-11-20 17:13:40,841 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 12(0000000000001100) into MBR.
 2022-11-20 17:13:41,715 [AWT-EventQueue-0] ERROR CSCI6465.logger: Cannot store value to the reserved locations.
 2022-12-07 15:29:08,315 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 00:50:08,821 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 00:58:22,935 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:01:44,132 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:01:58,744 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:02:08,810 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:02:20,215 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:06:05,378 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:06:08,591 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 960(0000001111000000) into FR0.
+2022-12-09 01:07:45,831 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:07:49,204 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 811(0000001100101011) into FR1.
+2022-12-09 01:13:12,102 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:13:18,150 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 11(0000000000001011) into FR0.
+2022-12-09 01:14:48,532 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-09 01:14:49,732 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init start.
+2022-12-09 01:14:49,739 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
+2022-12-09 01:14:49,752 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
+2022-12-09 01:14:51,541 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
