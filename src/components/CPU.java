@@ -63,6 +63,8 @@ public class CPU {
 		decoder.put(25, () -> NOT()); decoder.put(31, () -> SRC()); decoder.put(32, () -> RRC()); decoder.put(61, () -> IN()); decoder.put(62, () -> OUT());
 		decoder.put(14, () -> JSR()); decoder.put(15, () -> RFSImmed()); decoder.put(16, () -> SOB()); decoder.put(17, () -> JGE()); decoder.put(04, () -> AMR()); 
         decoder.put(05, () -> SMR()); decoder.put(06, () -> AIR()); decoder.put(07, () -> SIR()); decoder.put(63, () -> CHK()); decoder.put(30, () -> TRAP());
+        decoder.put(35, () -> VADD()); decoder.put(36, () -> VSUB()); decoder.put(33, () -> FADD()); decoder.put(34, () -> FSUB()); decoder.put(37, () -> CNVRT());
+        decoder.put(50, () -> LDFR()); decoder.put(51, () -> STFR());
 	}
 	
 	public void setMAR(int address) {
@@ -562,15 +564,13 @@ public class CPU {
 			//set CC2 to 1
 			CCList.get(2).setCurrentValue(1);
 			logger.info("DVD instruction DIVZERO flag.");
-		}
-		else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
+		}else if((rx == 0 || rx == 2)&&(ry==0 || ry==2) ) {
 			GPRList.get(rx).setCurrentValue(contentRx / contentRy);
 			GPRList.get(rx).setBinaryValue (contentRx / contentRy);
 			GPRList.get(rx+1).setCurrentValue(contentRx % contentRy);
 			GPRList.get(rx+1).setBinaryValue (contentRx % contentRy);
 			logger.info("DVD instruction end.");
-		}
-		else {
+		}else {
 			logger.info("DVD instruction- rx and ry must be 0 or 2.");
 		}
 		pc.addOne();
@@ -621,8 +621,7 @@ public class CPU {
         for(int i = 0; i<contentRx.length();i++) {
             if(contentRx.charAt(i)== '0') {
                 notofContent = notofContent + "1";
-            }
-            else {
+            }else {
                 notofContent = notofContent + "0";
             }
         }
@@ -642,8 +641,7 @@ public class CPU {
 		String result = "";
 		if (lr == 0) {	//right shift
 			result = rightShift(contentRx,count,al);
-		}
-		else {	//left shift
+		}else {	//left shift
 			result = leftShift(contentRx,count);
 		}
 		
@@ -689,8 +687,7 @@ public class CPU {
             if(value.matches("\\d+")) { //checks if input has only numbers
                 GPRList.get(register).setCurrentValue(Integer.valueOf(value));
                 GPRList.get(register).setBinaryValue (Integer.valueOf(value));
-            }
-            else {
+            }else {
                 GPRList.get(register).setdeviceStringInput(1);
                 asciiValue.clear();
                 for (int i= 0; i<value.length(); i++) {
@@ -718,8 +715,7 @@ public class CPU {
             if(devid == 1) {
                 if(value<10) {
                     panel.appendToConsole(String.valueOf(value));
-                }
-                else {
+                }else {
                     panel.appendToConsole(Character.toString((char)value));
                 }
             }
@@ -953,5 +949,227 @@ public class CPU {
         }
         pc.setBinaryValue(mem.get(0)+ TrapCode);
         logger.info("TRAP instruction end.");
+    }
+	
+	public void VADD() {
+		logger.info("VADD instruction start.");
+		if(ir.getGPRValue()>=2) {
+			logger.error("There is no FR{}.", ir.getGPRValue());
+		}else{
+			getEA();
+			mar.setCurrentValue(mar.getCurrentValue()+1);
+			mar.setBinaryValue(mar.getCurrentValue()+1);
+			Fetch();
+			int v2 = mbr.getCurrentValue();
+			getEA();
+			Fetch();
+			int v1 = mbr.getCurrentValue();
+			FRList.get(ir.getGPRValue()).setCurrentValue(v1+v2);
+			FRList.get(ir.getGPRValue()).setBinaryValue(v1+v2);
+		}
+		pc.addOne();
+		logger.info("VADD instruction end.");
+	}
+	
+	public void VSUB() {
+		logger.info("VSUB instruction start.");
+		if(ir.getGPRValue()>=2) {
+			logger.error("There is no FR{}.", ir.getGPRValue());
+		}else{
+			getEA();
+			mar.setCurrentValue(mar.getCurrentValue()+1);
+			mar.setBinaryValue(mar.getCurrentValue()+1);
+			Fetch();
+			int v2 = mbr.getCurrentValue();
+			getEA();
+			Fetch();
+			int v1 = mbr.getCurrentValue();
+			FRList.get(ir.getGPRValue()).setCurrentValue(v1-v2);
+			FRList.get(ir.getGPRValue()).setBinaryValue(v1-v2);
+		}
+		pc.addOne();
+		logger.info("VSUB instruction end.");
+	}
+	
+	public void FADD() {
+        logger.info("FADD instruction start.");
+        int frNumber = getRX();
+        
+        if(frNumber == 0 || frNumber == 1) {
+        	float FRvalue = binaryToFloatingPoint(FRList.get(frNumber));
+        	getEA();
+    		Fetch();
+    		int content = mbr.getCurrentValue();
+    		float total = (float)content + FRvalue;
+    		FRList.get(frNumber).setBinaryValue(floatingPointToBinaryInt(total));
+    		FRList.get(frNumber).setCurrentValue(floatingPointToBinaryInt(total));    		
+        }else {
+        	logger.info("Floating point register number should be 0 or 1");
+        }
+        pc.addOne();
+        logger.info("FADD instruction end.");
+    }
+	
+	public void FSUB() {
+        logger.info("FSUB instruction start.");
+        int frNumber = getRX();
+        
+        if(frNumber == 0 || frNumber == 1) {
+        	float FRvalue = binaryToFloatingPoint(FRList.get(frNumber));
+        	getEA();
+    		Fetch();
+    		int content = mbr.getCurrentValue();
+    		float total = FRvalue - (float)content;
+    		FRList.get(frNumber).setBinaryValue(floatingPointToBinaryInt(total));
+    		FRList.get(frNumber).setCurrentValue(floatingPointToBinaryInt(total));    		
+        }else {
+        	logger.info("Floating point register number should be 0 or 1");
+        }
+        pc.addOne();
+        logger.info("FSUB instruction end.");
+    }
+	
+	public void CNVRT() {
+        logger.info("CNVRT instruction start.");
+        int GPRvalue = GPRList.get(ir.getGPRValue()).getCurrentValue();
+        getEA();
+		Fetch();
+        if(GPRvalue == 0) {
+        	int content = mbr.getCurrentValue();
+        	int prevValue = FRList.get(0).getCurrentValue();
+        	FRList.get(0).setBinaryValue(content);
+        	FRList.get(0).setCurrentValue(content);
+        	float FRvalue = binaryToFloatingPoint(FRList.get(0));
+        	int integerValue = Math.round(FRvalue);
+        	GPRList.get(ir.getGPRValue()).setBinaryValue(integerValue);
+        	GPRList.get(ir.getGPRValue()).setCurrentValue(integerValue);
+    		FRList.get(0).setBinaryValue(prevValue);
+    		FRList.get(0).setCurrentValue(prevValue);    		
+        }if(GPRvalue == 1) {
+        	int content = mbr.getCurrentValue();
+        	float value = (float)content;
+        	FRList.get(0).setBinaryValue(floatingPointToBinaryInt(value));
+    		FRList.get(0).setCurrentValue(floatingPointToBinaryInt(value));        	
+        }
+        pc.addOne();
+        logger.info("CNVRT instruction end.");
+    }
+	
+	public float binaryToFloatingPoint(FloatingPointRegister fr) {
+        double result = 0;
+        String mantissa = fr.getMantissaString();
+        int sign = fr.getSignInteger();
+        int exponent = fr.getExponentInteger();
+        int bias = 63;
+        double exponentValue = Math.pow(2.0, (double)(exponent - bias));
+        double half = 0.5;
+        double mantissaValue = 1;
+        for (int i = 0; i < mantissa.length(); i++) {
+            int bit = Integer.valueOf(mantissa.substring(i, i + 1));
+            mantissaValue += half * bit;
+            half = half / 2;
+        }
+        result = sign * exponentValue * mantissaValue;
+        return (float) result;
+    }
+	
+	public int floatingPointToBinaryInt(float value) {
+        // Get Sign
+        String sign;
+        if (value >= 0) {
+            sign = "0";
+        } else {
+            sign = "1";
+        }
+        // Get Exponent
+        int exponent = findExponent(value) + 63;
+        if (exponent > (63 + 64)) {
+        	logger.info("Exponent more than the limit");
+            return 0;
+        }
+        String exponentBinary = toBinaryString(exponent, 7);
+        String Mantissa = calculateMantissa(value, exponent - 63);
+        return setValue(sign, exponentBinary, Mantissa);
+    }
+	
+	private String calculateMantissa(float value, int exponetInt) {
+        value = Math.abs(value);
+        Double exponetDouble = Math.pow(2, exponetInt);
+        double a = value / exponetDouble - 1;
+        double half = 0.5;
+        String result = "";
+        while (result.length() != 8) {
+            if (a > half) {
+                result += "1";
+                a -= half;
+            } else {
+                result += "0";
+            }
+            half = half / 2;
+        }
+        return result;
+    }
+
+    private String toBinaryString(int val, int length) {
+        String value = Integer.toBinaryString(val);// Change to BinaryString
+        if (value.length() == 32 && value.substring(0, 1).equals("1")) {
+            // Negative number
+            return value;
+        }
+        String Stringlength = "" + length;
+        String format = "%0numberd".replace("number", Stringlength);
+        return String.format(format, Long.valueOf(value));//
+    }
+
+
+    private int findExponent(float value) {
+        int num = 1;
+        int i = 0;
+        while (value > num) {
+        	num = num * 2;
+            i = i + 1;
+        }
+        return i - 1;
+    }
+    
+    public int setValue(String sign, String exponent, String mantissa) {
+        if (sign.length() != 1) {
+        	logger.info("Floating Point sign Length Error.");
+        }
+        if (exponent.length() != 7) {
+        	logger.info("Floating Point exponent Length Error.");
+        }
+        if (mantissa.length() != 8) {
+        	logger.info("Floating Point mantissa Length Error.");
+        }
+        String value = sign + exponent + mantissa;
+        return Integer.parseInt(value, 2);
+    }
+    
+    public void loadFR() {
+        int frValue = ir.getGPRValue();
+        FRList.get(frValue).setCurrentValue(mbr.getCurrentValue());
+        FRList.get(frValue).setBinaryValue(mbr.getCurrentValue());
+        logger.info("Load MBR value " + mbr.getCurrentValue() + "(" + mbr.getValue() + ") into GPR " + frValue);
+    }
+
+    public void LDFR() {
+        logger.info("LDFR instruction start.");
+        getEA();
+        Fetch();
+        loadFR();
+        pc.addOne();
+        logger.info("LDFR instruction end.");
+    }
+    
+    public void STFR() {
+        logger.info("STFR instruction start.");
+        getEA();
+        int FRvalue = FRList.get(ir.getGPRValue()).getCurrentValue();
+        mbr.setBinaryValue(FRvalue);
+        mbr.setCurrentValue(FRvalue);
+        Store();
+        pc.addOne();
+        logger.info("STFR instruction end.");
     }
 }

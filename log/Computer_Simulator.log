@@ -28181,3 +28181,41 @@
 2022-12-09 01:14:49,739 [AWT-EventQueue-0] INFO  CSCI6465.logger: Init end.
 2022-12-09 01:14:49,752 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file start.
 2022-12-09 01:14:51,541 [AWT-EventQueue-0] INFO  CSCI6465.logger: Read file end.
+2022-12-09 20:25:13,582 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-10 20:16:40,214 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-13 16:35:56,295 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-13 20:06:04,894 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
+2022-12-13 20:06:52,420 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 20(000000010100) into MAR.
+2022-12-13 20:07:04,045 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(0000000000001010) into MBR.
+2022-12-13 20:07:04,826 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10(0000000000001010) into cache address 20(000000010100)
+2022-12-13 20:07:04,831 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 10(0000000000001010) into memory address 20(000000010100)
+2022-12-13 20:07:12,761 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 11(0000000000001011) into MBR.
+2022-12-13 20:07:14,143 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 11(0000000000001011) into cache address 21(000000010101)
+2022-12-13 20:07:14,146 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 11(0000000000001011) into memory address 21(000000010101)
+2022-12-13 20:08:08,458 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 35860(1000110000010100) into MBR.
+2022-12-13 20:08:19,251 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 30(000000011110) into MAR.
+2022-12-13 20:08:21,970 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 35860(1000110000010100) into cache address 30(000000011110)
+2022-12-13 20:08:21,974 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 35860(1000110000010100) into memory address 30(000000011110)
+2022-12-13 20:08:25,619 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 30(000000011110) into PC.
+2022-12-13 20:08:27,086 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-12-13 20:08:27,088 [AWT-EventQueue-0] INFO  CSCI6465.logger: VADD instruction start.
+2022-12-13 20:08:27,091 [AWT-EventQueue-0] INFO  CSCI6465.logger: Cache hit!
+2022-12-13 20:08:27,094 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 11(0000000000001011) from cache address 21(000000010110).
+2022-12-13 20:08:27,097 [AWT-EventQueue-0] INFO  CSCI6465.logger: Cache hit!
+2022-12-13 20:08:27,098 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(0000000000001010) from cache address 20(000000010100).
+2022-12-13 20:08:27,101 [AWT-EventQueue-0] INFO  CSCI6465.logger: VADD instruction end.
+2022-12-13 20:08:27,103 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-12-13 20:09:06,136 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 31(000000011111) into MAR.
+2022-12-13 20:10:08,546 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 37140(1001000100010100) into MBR.
+2022-12-13 20:10:09,520 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 37140(1001000100010100) into cache address 31(000000011111)
+2022-12-13 20:10:09,523 [AWT-EventQueue-0] INFO  CSCI6465.logger: Store 37140(1001000100010100) into memory address 31(000000011111)
+2022-12-13 20:10:12,418 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 31(000000011111) into PC.
+2022-12-13 20:10:13,986 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run start.
+2022-12-13 20:10:13,988 [AWT-EventQueue-0] INFO  CSCI6465.logger: VSUB instruction start.
+2022-12-13 20:10:13,991 [AWT-EventQueue-0] INFO  CSCI6465.logger: Cache hit!
+2022-12-13 20:10:13,992 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 11(0000000000001011) from cache address 21(000000010110).
+2022-12-13 20:10:13,995 [AWT-EventQueue-0] INFO  CSCI6465.logger: Cache hit!
+2022-12-13 20:10:13,996 [AWT-EventQueue-0] INFO  CSCI6465.logger: Load 10(0000000000001010) from cache address 20(000000010100).
+2022-12-13 20:10:13,998 [AWT-EventQueue-0] INFO  CSCI6465.logger: VSUB instruction end.
+2022-12-13 20:10:14,000 [AWT-EventQueue-0] INFO  CSCI6465.logger: Sinlge Run end.
+2022-12-13 21:10:38,214 [AWT-EventQueue-0] INFO  CSCI6465.logger: Initialize the main dashboard.
