@@ -739,7 +739,6 @@ public class CPU {
 		}else {
 			env = 0;
 		}
-		System.out.println("ENV: " + env);
 		pc.addOne();
 		logger.info("ChangeEnv instruction end.");
 	}
