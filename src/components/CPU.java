@@ -46,6 +46,7 @@ public class CPU {
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
 	private MemoryFaultRegister mfr = new MemoryFaultRegister(0);
 	private ArrayList<Integer> asciiValue = new ArrayList<Integer>();
+	private int env = 1;
 	public static String keyboardInput;
 	Panels panel;
 	
@@ -64,7 +65,7 @@ public class CPU {
 		decoder.put(14, () -> JSR()); decoder.put(15, () -> RFSImmed()); decoder.put(16, () -> SOB()); decoder.put(17, () -> JGE()); decoder.put(04, () -> AMR()); 
         decoder.put(05, () -> SMR()); decoder.put(06, () -> AIR()); decoder.put(07, () -> SIR()); decoder.put(63, () -> CHK()); decoder.put(30, () -> TRAP());
         decoder.put(35, () -> VADD()); decoder.put(36, () -> VSUB()); decoder.put(33, () -> FADD()); decoder.put(34, () -> FSUB()); decoder.put(37, () -> CNVRT());
-        decoder.put(50, () -> LDFR()); decoder.put(51, () -> STFR());
+        decoder.put(50, () -> LDFR()); decoder.put(51, () -> STFR()); decoder.put(9, () -> ChangeEnv());
 	}
 	
 	public void setMAR(int address) {
@@ -713,11 +714,15 @@ public class CPU {
         if(devid != 0) {
             int value = GPRList.get(register).getCurrentValue();
             if(devid == 1) {
-                if(value<10) {
-                    panel.appendToConsole(String.valueOf(value));
-                }else {
-                    panel.appendToConsole(Character.toString((char)value));
-                }
+            	if(env == 0) {
+            		panel.appendToConsole(String.valueOf(value));
+            	}else {
+            		if(value<10) {
+                        panel.appendToConsole(String.valueOf(value));
+                    }else {
+                        panel.appendToConsole(Character.toString((char)value));
+                    }
+            	}
             }
             logger.info("OUT instruction end.");
         }else {
@@ -725,6 +730,19 @@ public class CPU {
         }
         pc.addOne();
     }
+	
+	public void ChangeEnv() {
+		logger.info("ChangeEnv instruction start.");
+		int checkenv = ir.getAddrValue();
+		if(checkenv >= 1) {
+			env = 1;
+		}else {
+			env = 0;
+		}
+		System.out.println("ENV: " + env);
+		pc.addOne();
+		logger.info("ChangeEnv instruction end.");
+	}
 	
 	public void MLT() {
 		logger.info("MLT instruction start.");
