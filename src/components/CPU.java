@@ -46,7 +46,7 @@ public class CPU {
 	private BigInteger maxINT = BigInteger.valueOf((long) Math.pow(2, 16));
 	private MemoryFaultRegister mfr = new MemoryFaultRegister(0);
 	private ArrayList<Integer> asciiValue = new ArrayList<Integer>();
-	private int env = 1;
+	private int env = 0;
 	public static String keyboardInput;
 	Panels panel;
 	
@@ -803,8 +803,7 @@ public class CPU {
             if(GPRvalue + immed > 32767) {
                 CCList.get(0).setCurrentValue(1);
                 logger.info("Addition instruction Overflow flag.");
-            }
-            else
+            }else
                 GPRList.get(ir.getGPRValue()).setCurrentValue(GPRvalue+immed);
                 GPRList.get(ir.getGPRValue()).setBinaryValue(GPRvalue+immed);
         }
@@ -871,8 +870,7 @@ public class CPU {
 			getEA();
 			pc.setCurrentValue(mar.getCurrentValue());
 			pc.setBinaryValue(mar.getCurrentValue());
-		}
-		else {
+		}else {
 			pc.addOne();
 		}
 		
@@ -888,8 +886,7 @@ public class CPU {
 		if(x < -32768) {
 			CCList.get(1).setCurrentValue(1);
 			logger.info("Subtraction instruction Underflow flag.");
-		}
-		else {
+		}else {
 			GPRList.get(ir.getGPRValue()).setCurrentValue(x);
 			GPRList.get(ir.getGPRValue()).setBinaryValue(x);
 		}
@@ -970,42 +967,70 @@ public class CPU {
 	
 	public void VADD() {
 		logger.info("VADD instruction start.");
-		if(ir.getGPRValue()>=2) {
-			logger.error("There is no FR{}.", ir.getGPRValue());
-		}else{
-			getEA();
-			mar.setCurrentValue(mar.getCurrentValue()+1);
-			mar.setBinaryValue(mar.getCurrentValue()+1);
-			Fetch();
-			int v2 = mbr.getCurrentValue();
-			getEA();
-			Fetch();
-			int v1 = mbr.getCurrentValue();
-			FRList.get(ir.getGPRValue()).setCurrentValue(v1+v2);
-			FRList.get(ir.getGPRValue()).setBinaryValue(v1+v2);
-		}
-		pc.addOne();
-		logger.info("VADD instruction end.");
+        if(ir.getGPRValue()>=2) {
+            logger.error("There is no FR{}.", ir.getGPRValue());
+        }else{
+              int VectorLength = FRList.get(ir.getGPRValue()).getCurrentValue();
+              getEA();
+              Fetch();
+              int Vector1BaseAdd =  mbr.getCurrentValue();
+              getEA();
+              mar.setCurrentValue(mar.getCurrentValue()+1);
+              mar.setBinaryValue(mar.getCurrentValue()+1);
+              Fetch();
+              int Vector2BaseAdd = mbr.getCurrentValue();
+              for (int i = 0; i < VectorLength; i++) {
+                  mar.setCurrentValue(Vector1BaseAdd + i);
+                  mar.setBinaryValue(Vector1BaseAdd + i);
+                  Fetch();
+                  int Vector1CurrentValue = mbr.getCurrentValue();
+                  mar.setCurrentValue(Vector2BaseAdd + i);
+                  mar.setBinaryValue(Vector2BaseAdd + i);
+                  Fetch();
+                  int Vector2CurrentValue = mbr.getCurrentValue();
+                  mar.setCurrentValue(Vector1BaseAdd + i);
+                  mar.setBinaryValue(Vector1BaseAdd + i);
+                  mbr.setCurrentValue(Vector1CurrentValue + Vector2CurrentValue);
+                  mbr.setBinaryValue(Vector1CurrentValue + Vector2CurrentValue);
+                  Store();
+              }
+        }
+        pc.addOne();
+        logger.info("VADD instruction end.");
 	}
 	
 	public void VSUB() {
 		logger.info("VSUB instruction start.");
-		if(ir.getGPRValue()>=2) {
-			logger.error("There is no FR{}.", ir.getGPRValue());
-		}else{
-			getEA();
-			mar.setCurrentValue(mar.getCurrentValue()+1);
-			mar.setBinaryValue(mar.getCurrentValue()+1);
-			Fetch();
-			int v2 = mbr.getCurrentValue();
-			getEA();
-			Fetch();
-			int v1 = mbr.getCurrentValue();
-			FRList.get(ir.getGPRValue()).setCurrentValue(v1-v2);
-			FRList.get(ir.getGPRValue()).setBinaryValue(v1-v2);
-		}
-		pc.addOne();
-		logger.info("VSUB instruction end.");
+        if(ir.getGPRValue()>=2) {
+            logger.error("There is no FR{}.", ir.getGPRValue());
+        }else{
+              int VectorLength = FRList.get(ir.getGPRValue()).getCurrentValue();
+              getEA();
+              Fetch();
+              int Vector1BaseAdd =  mbr.getCurrentValue();
+              getEA();
+                mar.setCurrentValue(mar.getCurrentValue()+1);
+                mar.setBinaryValue(mar.getCurrentValue()+1);
+                Fetch();
+              int Vector2BaseAdd = mbr.getCurrentValue();
+              for (int i = 0; i < VectorLength; i++) {
+                  mar.setCurrentValue(Vector1BaseAdd + i);
+                  mar.setBinaryValue(Vector1BaseAdd + i);
+                  Fetch();
+                  int Vector1CurrentValue = mbr.getCurrentValue();
+                  mar.setCurrentValue(Vector2BaseAdd + i);
+                  mar.setBinaryValue(Vector2BaseAdd + i);
+                  Fetch();
+                  int Vector2CurrentValue = mbr.getCurrentValue();
+                  mar.setCurrentValue(Vector1BaseAdd + i);
+                  mar.setBinaryValue(Vector1BaseAdd + i);
+                  mbr.setCurrentValue(Vector1CurrentValue - Vector2CurrentValue);
+                  mbr.setBinaryValue(Vector1CurrentValue - Vector2CurrentValue);
+                  Store();
+              }
+        }
+        pc.addOne();
+        logger.info("VSUB instruction end.");
 	}
 	
 	public void FADD() {
@@ -1152,11 +1177,9 @@ public class CPU {
     public int setValue(String sign, String exponent, String mantissa) {
         if (sign.length() != 1) {
         	logger.info("Floating Point sign Length Error.");
-        }
-        if (exponent.length() != 7) {
+        }if (exponent.length() != 7) {
         	logger.info("Floating Point exponent Length Error.");
-        }
-        if (mantissa.length() != 8) {
+        }if (mantissa.length() != 8) {
         	logger.info("Floating Point mantissa Length Error.");
         }
         String value = sign + exponent + mantissa;
